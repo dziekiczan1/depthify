@@ -1,0 +1,8 @@
+@import "tailwindcss";
+
+@theme inline {
+}
+
+body {
+  @apply bg-gradient-to-br from-slate-50 to-blue-50;
+}
