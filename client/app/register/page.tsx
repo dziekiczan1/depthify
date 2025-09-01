@@ -1,5 +1,3 @@
-// This is a test commit
-
 import RegisterForm from '@/components/register/RegisterForm';
 
 const RegisterPage = () => {
