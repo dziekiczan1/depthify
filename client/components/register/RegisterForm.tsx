@@ -15,6 +15,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { ArrowRight, Mail } from 'lucide-react';
+import { signIn } from 'next-auth/react';
 
 const formSchema = z
   .object({
@@ -41,8 +42,31 @@ const RegisterForm = () => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      const res = await fetch('http://localhost:8000/user/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(values),
+      });
+
+      if (!res.ok) {
+        const errData = await res.json().catch(() => null);
+        return;
+      }
+
+      const data = await res.json();
+      form.reset();
+
+      await signIn('credentials', {
+        redirect: true,
+        email: values.email,
+        password: values.password,
+        callbackUrl: '/account',
+      });
+    } catch (error) {
+      console.error('Error:', error);
+    }
   }
 
   return (

@@ -10,7 +10,7 @@ const Login = () => {
         Login
       </Link>
       <Button asChild>
-        <Link href="/register">Register</Link>
+        <Link href="auth/register">Register</Link>
       </Button>
     </div>
   );
