@@ -1,7 +1,10 @@
 import type { Metadata } from 'next';
 import { Montserrat, Inter } from 'next/font/google';
-import './globals.css';
+import { getServerSession } from 'next-auth';
+
 import Header from '@/components/header/Header';
+import { SessionProvider } from '@/providers/SessionProvider';
+import './globals.css';
 
 const montserrat = Montserrat({
   variable: '--font-montserrat',
@@ -25,16 +28,20 @@ export const metadata: Metadata = {
     'Depthify is a modern online logbook for recording your dives. Track your underwater adventures, analyze your statistics, and share your experiences with fellow divers.',
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await getServerSession();
+
   return (
     <html lang="en">
       <body className={`${inter.variable} ${montserrat.variable}`}>
         <Header />
-        <main className={`relative pt-20`}>{children}</main>
+        <SessionProvider session={session}>
+          <main className={`relative pt-20`}>{children}</main>
+        </SessionProvider>
       </body>
     </html>
   );
