@@ -1,28 +1,23 @@
-'use client';
+import { getServerSession } from 'next-auth';
+import { redirect } from 'next/navigation';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { Button } from '@/components/ui/button';
+import { signOut } from 'next-auth/react';
 
-import { useSession, signIn } from 'next-auth/react';
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+export default async function AccountPage() {
+  const session = await getServerSession(authOptions);
 
-const Account = () => {
-  const { data: session, status } = useSession();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (status === 'unauthenticated') {
-      router.push('/login'); // redirect to login page
-    }
-  }, [status, router]);
-
-  if (status === 'loading') return <div>Loading...</div>;
-  if (!session) return null; // while redirecting
+  if (!session) {
+    redirect('/login');
+  }
 
   return (
     <div>
       <h1>Account Page</h1>
       <p>Welcome, {session.user?.email}</p>
+      <form action={() => signOut({ callbackUrl: '/' })}>
+        <Button type="submit">Logout</Button>
+      </form>
     </div>
   );
-};
-
-export default Account;
+}
