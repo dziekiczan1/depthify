@@ -16,6 +16,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { ArrowRight, Mail } from 'lucide-react';
 import { signIn } from 'next-auth/react';
+import { redirect } from 'next/navigation';
 
 const formSchema = z.object({
   email: z.string().email({ message: 'Invalid email address.' }),
@@ -41,7 +42,7 @@ const LoginForm = () => {
     if (res?.error) {
       console.error(res?.error);
     } else {
-      window.location.href = '/account';
+      redirect('/account');
     }
   }
 

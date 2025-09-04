@@ -1,10 +1,10 @@
 import type { Metadata } from 'next';
 import { Montserrat, Inter } from 'next/font/google';
-import { getServerSession } from 'next-auth';
 
 import Header from '@/components/header/Header';
 import { SessionProvider } from '@/providers/SessionProvider';
 import './globals.css';
+import { auth } from '@/auth';
 
 const montserrat = Montserrat({
   variable: '--font-montserrat',
@@ -33,7 +33,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await getServerSession();
+  const session = await auth();
 
   return (
     <html lang="en">
