@@ -35,7 +35,6 @@ export const getFormFields = (): FormField[] => [
     icon: (
       <User size={20} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
     ),
-    className: 'w-half-gap',
   },
   {
     name: 'lastName',
@@ -44,7 +43,6 @@ export const getFormFields = (): FormField[] => [
     icon: (
       <User size={20} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
     ),
-    className: 'w-half-gap',
   },
   {
     name: 'email',
@@ -54,7 +52,6 @@ export const getFormFields = (): FormField[] => [
     icon: (
       <Mail size={20} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
     ),
-    className: 'w-full',
   },
   {
     name: 'password',
@@ -64,7 +61,6 @@ export const getFormFields = (): FormField[] => [
     icon: (
       <Lock size={20} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
     ),
-    className: 'w-full',
     isPassword: true,
   },
   {
@@ -75,7 +71,6 @@ export const getFormFields = (): FormField[] => [
     icon: (
       <Lock size={20} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
     ),
-    className: 'w-full',
     isPassword: true,
   },
 ];

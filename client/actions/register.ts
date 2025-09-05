@@ -11,7 +11,12 @@ export const registerUser = async (values: FormValues, redirectTo?: string) => {
 
     if (!response.ok) {
       const errData = await response.json().catch(() => null);
-      return { error: errData?.message || 'Registration failed' };
+
+      if (response.status === 422) {
+        return { error: 'Registration failed. Please try again!' };
+      }
+
+      return { error: errData?.detail || 'Registration failed. Please try again!' };
     }
 
     const authResult = await authenticateUser({
@@ -26,6 +31,6 @@ export const registerUser = async (values: FormValues, redirectTo?: string) => {
 
     return { success: true, redirectTo: authResult.redirectTo };
   } catch (err) {
-    return { error: 'Registration failed' };
+    return { error: 'Something went wrong. Please try again later!' };
   }
 };

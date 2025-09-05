@@ -18,9 +18,16 @@ import { Input } from '@/components/ui/input';
 import { usePasswordVisibility } from '@/lib/formUtils';
 import { formSchema, getFormFields, FormValues } from './registerFormConfig';
 import { registerUser } from '@/actions/register';
+import { useState, useTransition } from 'react';
+import { FormError } from '@/components/form/form-error';
+import { FormSuccess } from '@/components/form/form-success';
+import Loader from '@/components/ui/loader';
 
 const RegisterForm = () => {
   const router = useRouter();
+  const [error, setError] = useState<string | undefined>('');
+  const [success, setSuccess] = useState<string | undefined>('');
+  const [isPending, startTransition] = useTransition();
   const { passwordVisibility, togglePasswordVisibility } = usePasswordVisibility([
     'password',
     'confirmPassword',
@@ -37,14 +44,27 @@ const RegisterForm = () => {
     },
   });
 
-  const onSubmit = async (values: FormValues) => {
-    const result = await registerUser(values, '/account');
+  const onSubmit = (values: FormValues) => {
+    setError('');
+    setSuccess('');
 
-    if (result.success && result.redirectTo) {
-      router.push(result.redirectTo);
-    }
+    startTransition(() => {
+      registerUser(values, '/account')
+        .then((result) => {
+          if (result?.error) {
+            setError(result.error);
+          }
 
-    form.reset();
+          if (result?.success) {
+            form.reset();
+            setSuccess('Registration successful!');
+            if (result.redirectTo) {
+              router.push(result.redirectTo);
+            }
+          }
+        })
+        .catch(() => setError('Something went wrong'));
+    });
   };
 
   const fields = getFormFields();
@@ -58,12 +78,15 @@ const RegisterForm = () => {
             control={form.control}
             name={field.name}
             render={({ field: hookField }) => (
-              <FormItem className={field.className}>
+              <FormItem className={`w-full`}>
                 <FormLabel className={`text-slate-700`}>{field.label}</FormLabel>
                 <FormControl>
-                  <div className="relative w-full">
+                  <div className="relative w-full flex items-center">
                     <Input
                       placeholder={field.placeholder}
+                      disabled={isPending}
+                      aria-invalid={!!form.formState.errors[field.name]}
+                      className={`pl-10`}
                       type={
                         field.isPassword
                           ? passwordVisibility[field.name as string]
@@ -72,7 +95,6 @@ const RegisterForm = () => {
                           : field.type || 'text'
                       }
                       {...hookField}
-                      className={`pl-10`}
                     />
                     {field.icon}
 
@@ -96,14 +118,23 @@ const RegisterForm = () => {
             )}
           />
         ))}
-
-        <Button type="submit" className="w-full" size="lg">
-          Register
-          <ArrowRight
-            size={24}
-            className="text-white transition-transform duration-300 ease-in-out group-hover:translate-x-1"
-          />
-        </Button>
+        <FormError message={error} />
+        <FormSuccess message={success} />
+        {isPending ? (
+          <Loader />
+        ) : (
+          <Button
+            type="submit"
+            disabled={isPending}
+            className="w-full flex justify-center items-center gap-2"
+            size="lg">
+            Register
+            <ArrowRight
+              size={24}
+              className="text-white transition-transform duration-300 ease-in-out group-hover:translate-x-1"
+            />
+          </Button>
+        )}
       </form>
     </Form>
   );

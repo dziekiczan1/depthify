@@ -15,6 +15,6 @@ export const loginUser = async (values: FormValues, redirectTo?: string) => {
 
     return { success: true, redirectTo: authResult.redirectTo };
   } catch (err) {
-    return { error: 'Login failed' };
+    return { error: 'Login failed. Please try again!' };
   }
 };

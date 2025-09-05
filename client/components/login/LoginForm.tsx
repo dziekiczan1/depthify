@@ -19,9 +19,16 @@ import { usePasswordVisibility } from '@/lib/formUtils';
 import { formSchema, getFormFields } from './loginFormConfig';
 import type { FormValues } from './loginFormConfig';
 import { loginUser } from '@/actions/login';
+import { useState, useTransition } from 'react';
+import { FormError } from '@/components/form/form-error';
+import { FormSuccess } from '@/components/form/form-success';
+import Loader from '@/components/ui/loader';
 
 const LoginForm = () => {
   const router = useRouter();
+  const [error, setError] = useState<string | undefined>('');
+  const [success, setSuccess] = useState<string | undefined>('');
+  const [isPending, startTransition] = useTransition();
   const { passwordVisibility, togglePasswordVisibility } = usePasswordVisibility(['password']);
 
   const form = useForm<FormValues>({
@@ -32,13 +39,27 @@ const LoginForm = () => {
     },
   });
 
-  async function onSubmit(values: FormValues) {
-    const result = await loginUser(values, '/');
+  const onSubmit = (values: FormValues) => {
+    setError('');
+    setSuccess('');
 
-    if (result.success && result.redirectTo) {
-      router.push(result.redirectTo);
-    }
-  }
+    startTransition(() => {
+      loginUser(values, '/')
+        .then((result) => {
+          if (result?.error) {
+            setError(result.error);
+          }
+
+          if (result?.success) {
+            setSuccess('Login successful!');
+            if (result.redirectTo) {
+              router.push(result.redirectTo);
+            }
+          }
+        })
+        .catch(() => setError('Something went wrong'));
+    });
+  };
 
   return (
     <Form {...form}>
@@ -55,6 +76,8 @@ const LoginForm = () => {
                   <div className="relative w-full">
                     <Input
                       placeholder={field.placeholder}
+                      disabled={isPending}
+                      aria-invalid={!!form.formState.errors[field.name]}
                       type={
                         field.isPassword
                           ? passwordVisibility[field.name as string]
@@ -87,13 +110,23 @@ const LoginForm = () => {
             )}
           />
         ))}
-        <Button type="submit" className="w-full group" size="lg">
-          Login
-          <ArrowRight
-            size={24}
-            className="text-white transition-transform duration-300 ease-in-out group-hover:translate-x-1"
-          />
-        </Button>
+        <FormError message={error} />
+        <FormSuccess message={success} />
+        {isPending ? (
+          <Loader />
+        ) : (
+          <Button
+            type="submit"
+            disabled={isPending}
+            className="w-full flex justify-center items-center gap-2"
+            size="lg">
+            Login
+            <ArrowRight
+              size={24}
+              className="text-white transition-transform duration-300 ease-in-out group-hover:translate-x-1"
+            />
+          </Button>
+        )}
       </form>
     </Form>
   );

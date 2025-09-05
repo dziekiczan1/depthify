@@ -8,18 +8,18 @@ export interface AuthCredentials {
 
 export const authenticateUser = async ({ email, password, redirectTo }: AuthCredentials) => {
   try {
-    const res = await signIn('credentials', {
+    const response = await signIn('credentials', {
       redirect: false,
       email,
       password,
     });
 
-    if (res?.error) {
-      return { success: false, error: res.error };
+    if (response?.error) {
+      return { success: false, error: 'Login failed. Invalid email or password.' };
     }
 
     return { success: true, redirectTo };
   } catch (err) {
-    return { success: false, error: 'An unexpected error occurred during authentication' };
+    return { success: false, error: 'Something went wrong. Please try again later!' };
   }
 };
