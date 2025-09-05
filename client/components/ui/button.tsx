@@ -18,6 +18,8 @@ const buttonVariants = cva(
           'relative rounded-lg text-blue-500 bg-gradient-to-br from-white/20 to-white/10 backdrop-blur-md border border-blue-300 shadow-md transition-all duration-300 ease-out hover:scale-[1.03] before:absolute before:inset-0 before:bg-gradient-to-r before:from-white/20 before:via-blue-100/20 before:to-white/20 before:translate-x-[-120%] hover:before:translate-x-[120%] before:transition-transform before:duration-700 before:ease-in-out before:rounded-lg overflow-hidden will-change-transform',
         ghost: 'hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50',
         link: 'text-primary underline-offset-4 hover:underline',
+        plain:
+          'bg-transparent border-none shadow-none text-foreground hover:bg-accent/20 transition-colors duration-200',
       },
       size: {
         default: 'h-10 px-6 py-2 has-[>svg]:px-3',
