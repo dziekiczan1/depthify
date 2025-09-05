@@ -2,7 +2,8 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
+import { useRouter } from 'next/navigation';
+import { ArrowRight, Eye, EyeOff } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -14,24 +15,18 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { ArrowRight, Mail } from 'lucide-react';
-import { signIn } from 'next-auth/react';
-
-const formSchema = z
-  .object({
-    firstName: z.string().min(2, { message: 'First name must be at least 2 characters.' }),
-    lastName: z.string().min(2, { message: 'Last name must be at least 2 characters.' }),
-    email: z.string().email({ message: 'Invalid email address.' }),
-    password: z.string().min(6, { message: 'Password must be at least 6 characters.' }),
-    confirmPassword: z.string().min(6, { message: 'Confirm your password.' }),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: 'Passwords do not match.',
-    path: ['confirmPassword'],
-  });
+import { usePasswordVisibility } from '@/lib/formUtils';
+import { formSchema, getFormFields, FormValues } from './registerFormConfig';
+import { registerUser } from '@/actions/register';
 
 const RegisterForm = () => {
-  const form = useForm<z.infer<typeof formSchema>>({
+  const router = useRouter();
+  const { passwordVisibility, togglePasswordVisibility } = usePasswordVisibility([
+    'password',
+    'confirmPassword',
+  ]);
+
+  const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       firstName: '',
@@ -42,108 +37,67 @@ const RegisterForm = () => {
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
-    try {
-      const res = await fetch('http://localhost:8000/user/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(values),
-      });
+  const onSubmit = async (values: FormValues) => {
+    const result = await registerUser(values, '/account');
 
-      if (!res.ok) {
-        const errData = await res.json().catch(() => null);
-        return;
-      }
-
-      const data = await res.json();
-      form.reset();
-
-      await signIn('credentials', {
-        redirect: true,
-        email: values.email,
-        password: values.password,
-        callbackUrl: '/account',
-      });
-    } catch (error) {
-      console.error('Error:', error);
+    if (result.success && result.redirectTo) {
+      router.push(result.redirectTo);
     }
-  }
+
+    form.reset();
+  };
+
+  const fields = getFormFields();
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <FormField
-          control={form.control}
-          name="firstName"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>First Name</FormLabel>
-              <FormControl>
-                <Input placeholder="First Name" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="lastName"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Last Name</FormLabel>
-              <FormControl>
-                <Input placeholder="Last Name" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <div className="relative w-full">
-                  <Input placeholder="Email" type="email" {...field} className="pl-10" />
-                  <Mail
-                    size={20}
-                    className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
-                  />
-                </div>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Password</FormLabel>
-              <FormControl>
-                <Input placeholder="Password" type="password" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="confirmPassword"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Confirm Password</FormLabel>
-              <FormControl>
-                <Input placeholder="Confirm Password" type="password" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit" className="w-full group" size="lg">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-wrap gap-6">
+        {fields.map((field) => (
+          <FormField
+            key={field.name}
+            control={form.control}
+            name={field.name}
+            render={({ field: hookField }) => (
+              <FormItem className={field.className}>
+                <FormLabel className={`text-slate-700`}>{field.label}</FormLabel>
+                <FormControl>
+                  <div className="relative w-full">
+                    <Input
+                      placeholder={field.placeholder}
+                      type={
+                        field.isPassword
+                          ? passwordVisibility[field.name as string]
+                            ? 'text'
+                            : 'password'
+                          : field.type || 'text'
+                      }
+                      {...hookField}
+                      className={`pl-10`}
+                    />
+                    {field.icon}
+
+                    {field.isPassword && (
+                      <Button
+                        type="button"
+                        variant={`plain`}
+                        onClick={() => togglePasswordVisibility(field.name as string)}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">
+                        {passwordVisibility[field.name as string] ? (
+                          <EyeOff size={20} />
+                        ) : (
+                          <Eye size={20} />
+                        )}
+                      </Button>
+                    )}
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        ))}
+
+        <Button type="submit" className="w-full" size="lg">
           Register
           <ArrowRight
             size={24}

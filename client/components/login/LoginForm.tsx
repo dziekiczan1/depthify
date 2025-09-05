@@ -2,7 +2,8 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
+import { useRouter } from 'next/navigation';
+import { ArrowRight, Eye, EyeOff } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -14,17 +15,16 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { ArrowRight, Mail } from 'lucide-react';
-import { signIn } from 'next-auth/react';
-import { redirect } from 'next/navigation';
-
-const formSchema = z.object({
-  email: z.string().email({ message: 'Invalid email address.' }),
-  password: z.string().min(6, { message: 'Password must be at least 6 characters.' }),
-});
+import { usePasswordVisibility } from '@/lib/formUtils';
+import { formSchema, getFormFields } from './loginFormConfig';
+import type { FormValues } from './loginFormConfig';
+import { loginUser } from '@/actions/login';
 
 const LoginForm = () => {
-  const form = useForm<z.infer<typeof formSchema>>({
+  const router = useRouter();
+  const { passwordVisibility, togglePasswordVisibility } = usePasswordVisibility(['password']);
+
+  const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: '',
@@ -32,57 +32,61 @@ const LoginForm = () => {
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
-    const res = await signIn('credentials', {
-      redirect: false,
-      email: values.email,
-      password: values.password,
-    });
+  async function onSubmit(values: FormValues) {
+    const result = await loginUser(values, '/');
 
-    if (res?.error) {
-      console.error(res?.error);
-    } else {
-      redirect('/account');
+    if (result.success && result.redirectTo) {
+      router.push(result.redirectTo);
     }
   }
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <div className="relative w-full">
-                  <Input placeholder="Email" type="email" {...field} className="pl-10" />
-                  <Mail
-                    size={20}
-                    className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
-                  />
-                </div>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        {getFormFields().map((field) => (
+          <FormField
+            key={field.name}
+            control={form.control}
+            name={field.name}
+            render={({ field: hookField }) => (
+              <FormItem className={field.className}>
+                <FormLabel className={`text-slate-700`}>{field.label}</FormLabel>
+                <FormControl>
+                  <div className="relative w-full">
+                    <Input
+                      placeholder={field.placeholder}
+                      type={
+                        field.isPassword
+                          ? passwordVisibility[field.name as string]
+                            ? 'text'
+                            : 'password'
+                          : field.type || 'text'
+                      }
+                      {...hookField}
+                      className={`pl-10`}
+                    />
+                    {field.icon}
 
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Password</FormLabel>
-              <FormControl>
-                <Input placeholder="Password" type="password" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
+                    {field.isPassword && (
+                      <Button
+                        type="button"
+                        variant={`plain`}
+                        onClick={() => togglePasswordVisibility(field.name as string)}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">
+                        {passwordVisibility[field.name as string] ? (
+                          <EyeOff size={20} />
+                        ) : (
+                          <Eye size={20} />
+                        )}
+                      </Button>
+                    )}
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        ))}
         <Button type="submit" className="w-full group" size="lg">
           Login
           <ArrowRight
