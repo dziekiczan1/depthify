@@ -1,4 +1,4 @@
-import type { AuthOptions } from 'next-auth';
+import type { NextAuthConfig } from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 
 export default {
@@ -11,7 +11,7 @@ export default {
       },
       async authorize(credentials) {
         try {
-          const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/user/login`, {
+          const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/user/login`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -20,18 +20,17 @@ export default {
             }),
           });
 
-          if (!res.ok) {
-            console.error('Login failed');
+          if (!response.ok) {
+            const errorData = await response.json().catch(() => null);
+            console.error('Login failed:', errorData?.message || 'Invalid credentials');
             return null;
           }
 
-          const user = await res.json();
-          return user;
+          return await response.json();
         } catch (error) {
-          console.error('Login error:', error);
-          return null;
+          throw new Error(error instanceof Error ? error.message : 'Something went wrong');
         }
       },
     }),
   ],
-} satisfies AuthOptions;
+} satisfies NextAuthConfig;
