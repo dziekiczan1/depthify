@@ -1,12 +1,13 @@
 import { Button } from '@/components/ui/button';
 import { auth, signOut } from '@/auth';
 import { redirect } from 'next/navigation';
+import { ROUTES } from '@/lib/routes';
 
 export default async function AccountPage() {
   const session = await auth();
 
   if (!session) {
-    redirect('/login');
+    redirect(ROUTES.LOGIN);
   }
 
   return (
@@ -17,7 +18,7 @@ export default async function AccountPage() {
         action={async () => {
           'use server';
           await signOut();
-          redirect('/');
+          redirect(ROUTES.HOME);
         }}>
         <Button type="submit">Logout</Button>
       </form>
