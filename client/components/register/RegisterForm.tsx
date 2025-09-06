@@ -22,6 +22,9 @@ import { useState, useTransition } from 'react';
 import { FormError } from '@/components/form/form-error';
 import { FormSuccess } from '@/components/form/form-success';
 import Loader from '@/components/ui/loader';
+import { GoogleIcon } from '@/components/icons/GoogleIcon';
+import { signIn } from 'next-auth/react';
+import { ROUTES } from '@/lib/routes';
 
 const RegisterForm = () => {
   const router = useRouter();
@@ -35,6 +38,7 @@ const RegisterForm = () => {
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
+    mode: 'onChange',
     defaultValues: {
       firstName: '',
       lastName: '',
@@ -44,12 +48,22 @@ const RegisterForm = () => {
     },
   });
 
+  const handleGoogleRegister = async () => {
+    try {
+      await signIn('google', {
+        redirectTo: ROUTES.ACCOUNT,
+      });
+    } catch {
+      setError('Google registration failed. Please try again.');
+    }
+  };
+
   const onSubmit = (values: FormValues) => {
     setError('');
     setSuccess('');
 
     startTransition(() => {
-      registerUser(values, '/account')
+      registerUser(values, ROUTES.ACCOUNT)
         .then((result) => {
           if (result?.error) {
             setError(result.error);
@@ -70,73 +84,118 @@ const RegisterForm = () => {
   const fields = getFormFields();
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-wrap gap-6">
-        {fields.map((field) => (
-          <FormField
-            key={field.name}
-            control={form.control}
-            name={field.name}
-            render={({ field: hookField }) => (
-              <FormItem className={`w-full`}>
-                <FormLabel className={`text-slate-700`}>{field.label}</FormLabel>
-                <FormControl>
-                  <div className="relative w-full flex items-center">
-                    <Input
-                      placeholder={field.placeholder}
-                      disabled={isPending}
-                      aria-invalid={!!form.formState.errors[field.name]}
-                      className={`pl-10`}
-                      type={
-                        field.isPassword
-                          ? passwordVisibility[field.name as string]
-                            ? 'text'
-                            : 'password'
-                          : field.type || 'text'
-                      }
-                      {...hookField}
-                    />
-                    {field.icon}
+    <>
+      <Button
+        onClick={handleGoogleRegister}
+        variant={`outline`}
+        className="w-full flex justify-center items-center gap-2 mb-6"
+        size="lg"
+        aria-label={`Register with Google`}>
+        <GoogleIcon />
+        Register with Google
+      </Button>
+      <div className="relative mb-6" aria-hidden={true}>
+        <div className="absolute inset-0 flex items-center">
+          <div className="w-full border-t border-slate-200"></div>
+        </div>
+        <div className="relative flex justify-center text-sm">
+          <span className="px-4 bg-white text-slate-500">or</span>
+        </div>
+      </div>
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="flex flex-wrap gap-6"
+          aria-live={`polite`}>
+          {fields.map((field) => (
+            <FormField
+              key={field.name}
+              control={form.control}
+              name={field.name}
+              render={({ field: hookField }) => (
+                <FormItem className={`w-full`}>
+                  <FormLabel htmlFor={field.name} className={`text-slate-700`}>
+                    {field.label}
+                  </FormLabel>
+                  <FormControl>
+                    <div className="relative w-full flex items-center">
+                      <Input
+                        id={field.name}
+                        placeholder={field.placeholder}
+                        disabled={isPending}
+                        aria-invalid={!!form.formState.errors[field.name]}
+                        aria-describedby={`${field.name}-error`}
+                        className={`pl-10`}
+                        type={
+                          field.isPassword
+                            ? passwordVisibility[field.name as string]
+                              ? 'text'
+                              : 'password'
+                            : field.type || 'text'
+                        }
+                        {...hookField}
+                      />
+                      {field.icon}
 
-                    {field.isPassword && (
-                      <Button
-                        type="button"
-                        variant={`plain`}
-                        onClick={() => togglePasswordVisibility(field.name as string)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">
-                        {passwordVisibility[field.name as string] ? (
-                          <EyeOff size={20} />
-                        ) : (
-                          <Eye size={20} />
-                        )}
-                      </Button>
-                    )}
-                  </div>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        ))}
-        <FormError message={error} />
-        <FormSuccess message={success} />
-        {isPending ? (
-          <Loader />
-        ) : (
-          <Button
-            type="submit"
-            disabled={isPending}
-            className="w-full flex justify-center items-center gap-2"
-            size="lg">
-            Register
-            <ArrowRight
-              size={24}
-              className="text-white transition-transform duration-300 ease-in-out group-hover:translate-x-1"
+                      {field.isPassword && (
+                        <Button
+                          type="button"
+                          variant={`plain`}
+                          onClick={() => togglePasswordVisibility(field.name as string)}
+                          className="absolute right-0 top-1/2 -translate-y-1/2 text-muted-foreground"
+                          aria-label={
+                            passwordVisibility[field.name as string]
+                              ? `Hide ${field.label}`
+                              : `Show ${field.label}`
+                          }>
+                          {passwordVisibility[field.name as string] ? (
+                            <EyeOff size={20} aria-hidden={true} />
+                          ) : (
+                            <Eye size={20} aria-hidden={true} />
+                          )}
+                        </Button>
+                      )}
+                    </div>
+                  </FormControl>
+                  <FormMessage id={`${field.name}-error`} />
+                </FormItem>
+              )}
             />
+          ))}
+          {error && <FormError message={error} />}
+          {success && <FormSuccess message={success} />}
+          {isPending ? (
+            <Loader aria-label={`Loading...`} />
+          ) : (
+            <Button
+              type="submit"
+              disabled={!form.formState.isValid || !form.formState.isDirty || isPending}
+              className="w-full flex justify-center items-center gap-2"
+              size="lg"
+              aria-label={`Register account`}>
+              Register
+              <ArrowRight
+                size={24}
+                className="text-white transition-transform duration-300 ease-in-out group-hover:translate-x-1"
+              />
+            </Button>
+          )}
+        </form>
+      </Form>
+      <div className="mt-6 text-center">
+        <p className="text-slate-600 leading-6">
+          Already have an account?
+          <Button
+            variant={`link`}
+            size={`link`}
+            onClick={() => router.push(ROUTES.LOGIN)}
+            className="font-semibold pl-1"
+            aria-label={`Log in`}>
+            Log in
           </Button>
-        )}
-      </form>
-    </Form>
+        </p>
+      </div>
+    </>
   );
 };
 
