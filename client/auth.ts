@@ -1,5 +1,6 @@
 import NextAuth from 'next-auth';
 import authConfig from './auth.config';
+import { ROUTES } from '@/lib/routes';
 
 export const {
   handlers: { GET, POST },
@@ -20,7 +21,7 @@ export const {
     },
   },
   pages: {
-    signIn: '/login',
+    signIn: ROUTES.LOGIN,
   },
   session: {
     strategy: 'jwt' as const,
