@@ -1,21 +1,10 @@
-import { useState } from 'react';
-
-export const usePasswordVisibility = (fields: string[] = []) => {
-  const initialState: Record<string, boolean> = {};
-
-  fields.forEach((field) => {
-    initialState[field] = false;
-  });
-
-  const [passwordVisibility, setPasswordVisibility] =
-    useState<Record<string, boolean>>(initialState);
-
-  const togglePasswordVisibility = (fieldName: string) => {
-    setPasswordVisibility((prev) => ({
-      ...prev,
-      [fieldName]: !prev[fieldName],
-    }));
-  };
-
-  return { passwordVisibility, togglePasswordVisibility };
+export const FormHeadings = {
+  register: {
+    title: 'Start your underwater adventure',
+    subtitle: 'Create an account and begin logging your dives',
+  },
+  login: {
+    title: 'Welcome Back!',
+    subtitle: 'Access your account and continue tracking your dives.',
+  },
 };

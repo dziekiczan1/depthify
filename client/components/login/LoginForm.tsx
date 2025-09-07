@@ -15,11 +15,11 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { usePasswordVisibility } from '@/lib/formUtils';
+import { usePasswordVisibility } from '@/lib/hooks/usePasswordVisibility';
 import { formSchema, getFormFields } from './loginFormConfig';
 import type { FormValues } from './loginFormConfig';
 import { loginUser } from '@/actions/login';
-import { useState, useTransition } from 'react';
+import { useState } from 'react';
 import { FormError } from '@/components/form/form-error';
 import { FormSuccess } from '@/components/form/form-success';
 import Loader from '@/components/ui/loader';

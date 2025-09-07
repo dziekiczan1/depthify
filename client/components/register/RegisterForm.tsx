@@ -15,7 +15,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { usePasswordVisibility } from '@/lib/formUtils';
+
 import { formSchema, getFormFields, FormValues } from './registerFormConfig';
 import { registerUser } from '@/actions/register';
 import { useState } from 'react';
@@ -25,6 +25,7 @@ import Loader from '@/components/ui/loader';
 import { GoogleIcon } from '@/components/icons/GoogleIcon';
 import { signIn } from 'next-auth/react';
 import { ROUTES } from '@/lib/routes';
+import { usePasswordVisibility } from '@/lib/hooks/usePasswordVisibility';
 
 const RegisterForm = () => {
   const router = useRouter();
