@@ -58,10 +58,12 @@ def login(payload: LoginRequest, db: Session = Depends(get_db)):
     return user
 
 
-@router.get("/{user_id}", response_model=UserIdCheckResponse)
-def check_userid(user_id: UUID, db: Session = Depends(get_db)):
-    user_exists = db.query(User).filter(User.id == user_id).first() is not None
-    return UserIdCheckResponse(exists=user_exists)
+@router.get("/{user_id}", response_model=UserOut)
+def get_user(user_id: UUID, db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    return user
 
 
 @router.post("/google-auth", response_model=UserOut)
