@@ -1,4 +1,5 @@
 import { signIn } from 'next-auth/react';
+import { auth } from '@/auth';
 
 export interface AuthCredentials {
   email: string;
@@ -22,4 +23,10 @@ export const authenticateUser = async ({ email, password, redirectTo }: AuthCred
   } catch (err) {
     return { success: false, error: 'Something went wrong. Please try again later!' };
   }
+};
+
+export const currentUser = async () => {
+  const session = await auth();
+
+  return session?.user;
 };

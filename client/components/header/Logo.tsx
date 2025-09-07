@@ -5,7 +5,7 @@ const Logo = () => {
   return (
     <Link
       href="/"
-      className="flex items-center space-x-3 group"
+      className="flex md:w-1/3 items-center space-x-3 group"
       aria-label="Go to Depthify homepage">
       <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-500 to-blue-600 flex items-center justify-center shadow-md transition-transform duration-200 group-hover:scale-110 will-change-transform">
         <Bubbles className="w-6 h-6 text-white" />

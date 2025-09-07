@@ -1,10 +1,12 @@
 import NextAuth from 'next-auth';
 import authConfig from './auth.config';
 import { ROUTES } from '@/lib/routes';
-import { CredentialInput } from '@auth/core/providers';
+import { DefaultUser } from '@auth/core/types';
+import { JWT } from '@auth/core/jwt';
 
-type GoogleCredentials = CredentialInput & {
-  registerFlow?: boolean;
+type CustomUser = DefaultUser & {
+  first_name?: string;
+  last_name?: string;
 };
 
 export const {
@@ -46,9 +48,12 @@ export const {
       session.user = token.user as any;
       return session;
     },
-    async jwt({ token, user }) {
+    async jwt({ token, user }: { token: JWT; user: CustomUser }) {
       if (user) {
-        token.user = user;
+        token.user = {
+          ...user,
+          username: user.name ?? `${user.first_name ?? ''} ${user.last_name ?? ''}`.trim(),
+        };
       }
       return token;
     },

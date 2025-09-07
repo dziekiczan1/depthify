@@ -58,7 +58,7 @@ const LoginForm = () => {
     setIsLoading(true);
 
     try {
-      const result = await loginUser(values, ROUTES.HOME);
+      const result = await loginUser(values, ROUTES.ACCOUNT);
       if (result?.error) {
         setError(result.error);
       }

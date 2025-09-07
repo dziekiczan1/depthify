@@ -20,7 +20,7 @@ const navigationItems: NavItem[] = [
 const MenuItem = ({ item }: { item: NavItem }) => (
   <Link
     href={item.href}
-    className="block md:inline-block text-slate-600 hover:text-blue-600 transition-colors font-medium duration-200 py-4 px-6 md:py-0 md:px-0">
+    className="block md:inline-block link link-default py-4 px-6 md:py-0 md:px-0">
     {item.label}
   </Link>
 );
@@ -40,14 +40,14 @@ const Menu = () => {
   }, [isOpen]);
 
   return (
-    <nav aria-label="Main Navigation" className="relative">
-      <div className="hidden md:flex items-center space-x-8">
+    <nav aria-label="Main Navigation" className="relative flex w-1/3">
+      <div className="hidden w-full md:flex items-center justify-end md:justify-center space-x-8">
         {navigationItems.map((item) => (
           <MenuItem key={item.href} item={item} />
         ))}
       </div>
 
-      <div className="md:hidden flex items-center relative">
+      <div className="md:hidden flex items-center relative w-full justify-end">
         <motion.button
           onClick={() => setIsOpen(!isOpen)}
           className="relative w-10 h-10 flex items-center justify-center rounded-lg bg-white/20 backdrop-blur-md border border-blue-200 hover:bg-white/30 transition-colors duration-200 shadow-sm"
@@ -58,9 +58,9 @@ const Menu = () => {
             animate={{ rotate: isOpen ? 180 : 0, opacity: 1 }}
             transition={{ duration: 0.3 }}>
             {isOpen ? (
-              <XIcon size={24} className="text-blue-600" />
+              <XIcon size={40} className="text-blue-600 p-2" />
             ) : (
-              <MenuIcon size={24} className="text-blue-600" />
+              <MenuIcon size={40} className="text-blue-600 p-2" />
             )}
           </motion.div>
         </motion.button>
