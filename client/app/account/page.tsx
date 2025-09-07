@@ -13,6 +13,7 @@ export default async function AccountPage() {
   return (
     <div>
       <h1>Account Page</h1>
+      <>{JSON.stringify(session)}</>
       <p>Welcome, {session.user?.email}</p>
       <form
         action={async () => {

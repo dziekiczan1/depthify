@@ -169,7 +169,7 @@ const RegisterForm = () => {
           ) : (
             <Button
               type="submit"
-              disabled={!form.formState.isValid || !form.formState.isDirty || isPending}
+              disabled={!form.formState.isValid || isPending}
               className="w-full flex justify-center items-center gap-2"
               size="lg"
               aria-label={`Register account`}>

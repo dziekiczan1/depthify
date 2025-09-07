@@ -1,8 +1,9 @@
 import { FormValues } from '@/components/register/registerFormConfig';
 import { authenticateUser } from '@/lib/authUtils';
 
-export const registerUser = async (values: FormValues, redirectTo?: string) => {
+export const registerUser = async (values: FormValues, redirectTo?: string, provider?: string) => {
   try {
+    const isGoogle = provider === 'google';
     const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/user/register`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -17,6 +18,10 @@ export const registerUser = async (values: FormValues, redirectTo?: string) => {
       }
 
       return { error: errData?.detail || 'Registration failed. Please try again!' };
+    }
+
+    if (isGoogle) {
+      return { success: true, redirectTo };
     }
 
     const authResult = await authenticateUser({
