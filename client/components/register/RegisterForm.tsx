@@ -18,7 +18,7 @@ import { Input } from '@/components/ui/input';
 import { usePasswordVisibility } from '@/lib/formUtils';
 import { formSchema, getFormFields, FormValues } from './registerFormConfig';
 import { registerUser } from '@/actions/register';
-import { useState, useTransition } from 'react';
+import { useState } from 'react';
 import { FormError } from '@/components/form/form-error';
 import { FormSuccess } from '@/components/form/form-success';
 import Loader from '@/components/ui/loader';
@@ -30,7 +30,7 @@ const RegisterForm = () => {
   const router = useRouter();
   const [error, setError] = useState<string | undefined>('');
   const [success, setSuccess] = useState<string | undefined>('');
-  const [isPending, startTransition] = useTransition();
+  const [isLoading, setIsLoading] = useState(false);
   const { passwordVisibility, togglePasswordVisibility } = usePasswordVisibility([
     'password',
     'confirmPassword',
@@ -58,27 +58,28 @@ const RegisterForm = () => {
     }
   };
 
-  const onSubmit = (values: FormValues) => {
+  const onSubmit = async (values: FormValues) => {
     setError('');
     setSuccess('');
+    setIsLoading(true);
 
-    startTransition(() => {
-      registerUser(values, ROUTES.ACCOUNT)
-        .then((result) => {
-          if (result?.error) {
-            setError(result.error);
-          }
+    try {
+      const result = await registerUser(values, ROUTES.ACCOUNT);
 
-          if (result?.success) {
-            form.reset();
-            setSuccess('Registration successful!');
-            if (result.redirectTo) {
-              router.push(result.redirectTo);
-            }
-          }
-        })
-        .catch(() => setError('Something went wrong'));
-    });
+      if (result?.error) {
+        setError(result.error);
+      }
+
+      if (result?.success) {
+        form.reset();
+        setSuccess('Registration successful!');
+        if (result.redirectTo) router.push(result.redirectTo);
+      }
+    } catch {
+      setError('Something went wrong');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const fields = getFormFields();
@@ -106,7 +107,8 @@ const RegisterForm = () => {
         <form
           onSubmit={form.handleSubmit(onSubmit)}
           className="flex flex-wrap gap-6"
-          aria-live={`polite`}>
+          aria-live={`polite`}
+          aria-busy={isLoading}>
           {fields.map((field) => (
             <FormField
               key={field.name}
@@ -122,7 +124,7 @@ const RegisterForm = () => {
                       <Input
                         id={field.name}
                         placeholder={field.placeholder}
-                        disabled={isPending}
+                        disabled={isLoading}
                         aria-invalid={!!form.formState.errors[field.name]}
                         aria-describedby={`${field.name}-error`}
                         className={`pl-10`}
@@ -164,12 +166,12 @@ const RegisterForm = () => {
           ))}
           {error && <FormError message={error} />}
           {success && <FormSuccess message={success} />}
-          {isPending ? (
+          {isLoading ? (
             <Loader aria-label={`Loading...`} />
           ) : (
             <Button
               type="submit"
-              disabled={!form.formState.isValid || isPending}
+              disabled={!form.formState.isValid || isLoading}
               className="w-full flex justify-center items-center gap-2"
               size="lg"
               aria-label={`Register account`}>

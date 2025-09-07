@@ -31,7 +31,7 @@ const LoginForm = () => {
   const router = useRouter();
   const [error, setError] = useState<string | undefined>('');
   const [success, setSuccess] = useState<string | undefined>('');
-  const [isPending, startTransition] = useTransition();
+  const [isLoading, setIsLoading] = useState(false);
   const { passwordVisibility, togglePasswordVisibility } = usePasswordVisibility(['password']);
 
   const form = useForm<FormValues>({
@@ -52,26 +52,25 @@ const LoginForm = () => {
     }
   };
 
-  const onSubmit = (values: FormValues) => {
+  const onSubmit = async (values: FormValues) => {
     setError('');
     setSuccess('');
+    setIsLoading(true);
 
-    startTransition(() => {
-      loginUser(values, ROUTES.HOME)
-        .then((result) => {
-          if (result?.error) {
-            setError(result.error);
-          }
-
-          if (result?.success) {
-            setSuccess('Login successful!');
-            if (result.redirectTo) {
-              router.push(result.redirectTo);
-            }
-          }
-        })
-        .catch(() => setError('Something went wrong'));
-    });
+    try {
+      const result = await loginUser(values, ROUTES.HOME);
+      if (result?.error) {
+        setError(result.error);
+      }
+      if (result?.success) {
+        setSuccess('Login successful!');
+        if (result.redirectTo) router.push(result.redirectTo);
+      }
+    } catch {
+      setError('Something went wrong');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -94,7 +93,11 @@ const LoginForm = () => {
         </div>
       </div>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6" aria-live={`polite`}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-6"
+          aria-live={`polite`}
+          aria-busy={isLoading}>
           {getFormFields().map((field) => (
             <FormField
               key={field.name}
@@ -110,7 +113,7 @@ const LoginForm = () => {
                       <Input
                         id={field.name}
                         placeholder={field.placeholder}
-                        disabled={isPending}
+                        disabled={isLoading}
                         aria-invalid={!!form.formState.errors[field.name]}
                         aria-describedby={`${field.name}-error`}
                         type={
@@ -152,12 +155,12 @@ const LoginForm = () => {
           ))}
           {error && <FormError message={error} />}
           {success && <FormSuccess message={success} />}
-          {isPending ? (
+          {isLoading ? (
             <Loader aria-label={`Loading...`} />
           ) : (
             <Button
               type="submit"
-              disabled={!form.formState.isValid || isPending}
+              disabled={!form.formState.isValid || isLoading}
               className="w-full flex justify-center items-center gap-2"
               size="lg"
               aria-label={`Log in`}>
