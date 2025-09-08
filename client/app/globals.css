@@ -74,4 +74,16 @@
   .link-secondary {
     @apply text-blue-500;
   }
+
+  .gradient-cyan {
+    @apply bg-gradient-to-r from-blue-600 via-blue-500 to-cyan-500;
+  }
+
+  .section-default {
+    @apply py-20 bg-slate-50;
+  }
+
+  .section-white {
+    @apply py-20 bg-white;
+  }
 }
