@@ -96,7 +96,7 @@ const RegisterForm = () => {
         <GoogleIcon />
         Register with Google
       </Button>
-      <div className="relative mb-6" aria-hidden={true}>
+      <div className="relative mb-6" aria-hidden>
         <div className="absolute inset-0 flex items-center">
           <div className="w-full border-t border-slate-200"></div>
         </div>
@@ -152,9 +152,9 @@ const RegisterForm = () => {
                               : `Show ${field.label}`
                           }>
                           {passwordVisibility[field.name as string] ? (
-                            <EyeOff size={20} aria-hidden={true} />
+                            <EyeOff size={20} aria-hidden />
                           ) : (
-                            <Eye size={20} aria-hidden={true} />
+                            <Eye size={20} aria-hidden />
                           )}
                         </Button>
                       )}
@@ -180,6 +180,7 @@ const RegisterForm = () => {
               <ArrowRight
                 size={24}
                 className="text-white transition-transform duration-300 ease-in-out group-hover:translate-x-1"
+                aria-hidden
               />
             </Button>
           )}
