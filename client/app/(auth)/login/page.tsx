@@ -1,11 +1,11 @@
 import LoginForm from '@/components/login/LoginForm';
 import { FormHeadings } from '@/lib/formUtils';
-import { PageHeader } from '@/components/layout/PageHeader';
+import { Heading } from '@/components/ui/heading';
 
 const LoginPage = () => {
   return (
-    <div className={`relative w-full max-w-lg mx-auto`}>
-      <PageHeader {...FormHeadings.login} />
+    <div className={`py-8 relative w-full max-w-lg mx-auto`}>
+      <Heading {...FormHeadings.login} size="md" descriptionSize="md" center />
       <div className={`bg-white rounded-2xl shadow-xl border border-blue-100 p-8`}>
         <LoginForm />
       </div>

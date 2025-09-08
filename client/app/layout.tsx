@@ -40,7 +40,7 @@ export default async function RootLayout({
       <body className={`${inter.variable} ${montserrat.variable}`}>
         <SessionProvider session={session}>
           <Header />
-          <main className={`relative pt-20`}>{children}</main>
+          <main className={`relative pt-16`}>{children}</main>
         </SessionProvider>
       </body>
     </html>

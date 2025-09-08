@@ -18,17 +18,22 @@ const Login = () => {
       {user ? (
         <span className="text-slate-700 font-medium">
           Welcome,{' '}
-          <Link href={ROUTES.ACCOUNT} className="link link-secondary">
+          <Link
+            href={ROUTES.ACCOUNT}
+            className="link link-secondary"
+            aria-label={`Go to ${user.username || 'your'} account`}>
             {user.username}
           </Link>
         </span>
       ) : (
         <>
-          <Link href={ROUTES.LOGIN} className="link link-default">
+          <Link href={ROUTES.LOGIN} className="link link-default" aria-label="Go to login page">
             Login
           </Link>
           <Button asChild>
-            <Link href={ROUTES.REGISTER}>Register</Link>
+            <Link href={ROUTES.REGISTER} aria-label="Go to register page">
+              Register
+            </Link>
           </Button>
         </>
       )}

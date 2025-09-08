@@ -1,20 +1,29 @@
+'use client';
+
 import Link from 'next/link';
 import { Bubbles } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const Logo = () => {
   return (
-    <Link
-      href="/"
-      className="flex md:w-1/3 items-center space-x-3 group"
-      aria-label="Go to Depthify homepage">
-      <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-500 to-blue-600 flex items-center justify-center shadow-md transition-transform duration-200 group-hover:scale-110 will-change-transform">
-        <Bubbles className="w-6 h-6 text-white" />
-      </div>
+    <div className="flex md:w-1/3 items-center space-x-3 group">
+      <Link href="/" aria-label="Go to Depthify homepage">
+        <motion.div
+          className="w-10 h-10 rounded-full gradient-cyan flex items-center justify-center shadow-xl"
+          whileHover={{ scale: 1.15 }}
+          animate={{ y: [0, -5, 0] }}
+          transition={{ repeat: Infinity, duration: 3, ease: 'easeInOut' }}>
+          <Bubbles className="w-6 h-6 text-white" />
+        </motion.div>
+      </Link>
 
-      <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent transition-colors duration-200 group-hover:from-blue-700 group-hover:to-blue-900">
+      <motion.span
+        className="text-2xl font-extrabold gradient-cyan bg-clip-text text-transparent"
+        whileHover={{ backgroundPosition: '100% center' }}
+        transition={{ duration: 0.5 }}>
         Depthify
-      </span>
-    </Link>
+      </motion.span>
+    </div>
   );
 };
 
