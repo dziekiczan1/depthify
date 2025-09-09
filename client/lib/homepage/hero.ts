@@ -1,4 +1,22 @@
-export const hero = {
+export interface HeroStat {
+  value: string;
+  label: string;
+}
+
+export interface HeroHeading {
+  title: string;
+  highlight?: string;
+  subtitle?: string;
+  description?: string;
+}
+
+export interface HeroData {
+  heading: HeroHeading;
+  statsTitle: string;
+  stats: HeroStat[];
+}
+
+export const hero: HeroData = {
   heading: {
     title: 'Your diving adventures',
     highlight: 'have never been',
