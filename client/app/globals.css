@@ -75,6 +75,10 @@
     @apply text-blue-500;
   }
 
+  .focus-ring {
+    @apply focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] outline-none;
+  }
+
   .gradient-cyan {
     @apply bg-gradient-to-r from-blue-600 via-blue-500 to-cyan-500;
   }
