@@ -10,6 +10,7 @@ import {
   Cloud,
 } from 'lucide-react';
 import { BaseFeature } from '@/lib/homepage/features';
+import { Heading } from '@/components/ui/heading';
 
 const icons: Record<string, LucideIcon> = {
   BookOpen,
@@ -37,8 +38,15 @@ export default function FeatureCard({ feature }: FeatureCardProps) {
         className={`w-12 h-12 bg-gradient-to-r ${feature.gradientFrom} ${feature.gradientTo} rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
         <Icon className="w-6 h-6 text-white" aria-hidden />
       </div>
-      <h3 className="text-lg font-semibold text-slate-900 mb-2">{feature.title}</h3>
-      <p className="text-slate-600 text-sm leading-relaxed">{feature.description}</p>
+      <Heading
+        as="h3"
+        title={feature.title}
+        description={feature.description}
+        size="sm"
+        descriptionSize="sm"
+        color="text-slate-900"
+        descriptionClassName="leading-relaxed text-slate-600"
+      />
     </div>
   );
 }

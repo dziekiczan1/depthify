@@ -1,5 +1,6 @@
 import { LucideIcon, Zap, Award, Globe, Heart } from 'lucide-react';
 import { BaseFeature } from '@/lib/homepage/features';
+import { Heading } from '@/components/ui/heading';
 
 const icons: Record<string, LucideIcon> = {
   Zap,
@@ -22,8 +23,15 @@ export default function WhyChooseCard({ feature }: WhyChooseCardProps) {
       <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mx-auto mb-4 transition-transform duration-300 group-hover:scale-110">
         <Icon className="w-6 h-6 text-white" aria-hidden />
       </div>
-      <h4 className="text-white font-semibold mb-2">{feature.title}</h4>
-      <p className="text-blue-100 text-sm">{feature.description}</p>
+      <Heading
+        as="h4"
+        title={feature.title}
+        description={feature.description}
+        size="xs"
+        descriptionSize="sm"
+        color="text-white"
+        descriptionClassName="text-blue-100 leading-relaxed"
+      />
     </div>
   );
 }

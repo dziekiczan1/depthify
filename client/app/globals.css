@@ -83,6 +83,10 @@
     @apply bg-gradient-to-r from-blue-600 via-blue-500 to-cyan-500;
   }
 
+  .gradient-cyan-soft {
+    @apply bg-gradient-to-r from-blue-500 to-cyan-500;
+  }
+
   .section-default {
     @apply py-20;
   }

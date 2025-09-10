@@ -9,7 +9,8 @@ interface HeadingProps {
   subtitle?: string;
   description?: string;
   gradient?: boolean;
-  size?: 'xl' | 'lg' | 'md' | 'sm';
+  size?: 'xl' | 'lg' | 'md' | 'sm' | 'xs';
+  headingClassName?: string;
   descriptionSize?: 'xl' | 'lg' | 'md' | 'sm';
   descriptionClassName?: string;
   color?: string;
@@ -25,6 +26,7 @@ export const Heading: React.FC<HeadingProps> = ({
   description,
   gradient = false,
   size = 'xl',
+  headingClassName,
   descriptionSize = 'md',
   descriptionClassName = 'text-slate-600',
   color = 'text-slate-900',
@@ -35,21 +37,22 @@ export const Heading: React.FC<HeadingProps> = ({
     xl: 'text-4xl md:text-6xl lg:text-7xl font-bold leading-none mb-8',
     lg: 'text-3xl md:text-4xl font-bold mb-4',
     md: 'text-2xl md:text-3xl font-bold mb-4',
-    sm: 'text-xl md:text-2xl font-bold mb-2',
+    sm: 'text-lg font-semibold mb-2',
+    xs: 'text-base font-semibold mb-2',
   };
 
   const descriptionSizeClasses = {
     xl: 'text-xl md:text-2xl max-w-3xl leading-relaxed mb-8',
     lg: 'text-xl max-w-3xl mb-16',
     md: 'text-lg max-w-2xl mx-auto',
-    sm: 'text-slate-600 mb-4',
+    sm: 'text-sm',
   };
 
   const gradientClasses = gradient ? 'gradient-cyan bg-clip-text text-transparent' : '';
 
   return (
     <div className={clsx(center && 'text-center', 'w-full', className)}>
-      <Tag className={clsx(sizeClasses[size], color)}>
+      <Tag className={clsx(sizeClasses[size], color, headingClassName)}>
         {title}
         {highlight && (
           <>
