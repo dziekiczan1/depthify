@@ -8,7 +8,7 @@ import { ROUTES } from '@/lib/routes';
 export default function HeroCTA() {
   const router = useRouter();
   return (
-    <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
+    <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
       <Button
         onClick={() => router.push(ROUTES.LOGIN)}
         className="flex justify-center items-center gap-2"

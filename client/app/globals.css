@@ -84,10 +84,6 @@
   }
 
   .section-default {
-    @apply py-20 bg-slate-50;
-  }
-
-  .section-white {
-    @apply py-20 bg-white;
+    @apply py-20;
   }
 }

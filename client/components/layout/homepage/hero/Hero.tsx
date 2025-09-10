@@ -8,7 +8,7 @@ import HeroCTA from '@/components/layout/homepage/hero/HeroCTA';
 export const HeroSection = () => {
   const heroHeading = hero.heading;
   return (
-    <section id="hero" className="section-default py-20">
+    <section id="hero" className="section-default">
       <LayoutContainer>
         <div className="text-center">
           <Badge text="Nowa era cyfrowych logbooków nurkowych" color="blue" showPulse />

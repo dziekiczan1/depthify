@@ -39,8 +39,8 @@ export const Heading: React.FC<HeadingProps> = ({
   };
 
   const descriptionSizeClasses = {
-    xl: 'text-xl md:text-2xl mb-8 max-w-3xl leading-relaxed',
-    lg: 'text-xl mb-6 max-w-3xl',
+    xl: 'text-xl md:text-2xl max-w-3xl leading-relaxed mb-8',
+    lg: 'text-xl max-w-3xl mb-16',
     md: 'text-lg max-w-2xl mx-auto',
     sm: 'text-slate-600 mb-4',
   };
