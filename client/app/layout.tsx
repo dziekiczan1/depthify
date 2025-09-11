@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Montserrat, Inter } from 'next/font/google';
 
-import Header from '@/components/header/Header';
+import { Header } from '@/components/header/Header';
 import { SessionProvider } from '@/providers/SessionProvider';
 import './globals.css';
 import { auth } from '@/auth';

@@ -27,7 +27,7 @@ import { ROUTES } from '@/lib/routes';
 import { GoogleIcon } from '@/components/icons/GoogleIcon';
 import { signIn } from 'next-auth/react';
 
-const LoginForm = () => {
+export const LoginForm = () => {
   const router = useRouter();
   const [error, setError] = useState<string | undefined>('');
   const [success, setSuccess] = useState<string | undefined>('');
@@ -190,5 +190,3 @@ const LoginForm = () => {
     </>
   );
 };
-
-export default LoginForm;

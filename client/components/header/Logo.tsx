@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { Bubbles } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-const Logo = () => {
+export const Logo = () => {
   return (
     <div className="flex md:w-1/3 items-center space-x-3 group">
       <Link href="/" aria-label="Go to Depthify homepage">
@@ -26,5 +26,3 @@ const Logo = () => {
     </div>
   );
 };
-
-export default Logo;

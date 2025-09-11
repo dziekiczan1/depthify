@@ -1,9 +1,9 @@
-import LayoutContainer from '@/components/layout/LayoutContainer';
+import { LayoutContainer } from '@/components/layout/LayoutContainer';
 import { hero } from '@/lib/homepage/hero';
-import StatsGrid from '@/components/layout/homepage/hero/StatsGrid';
+import { StatsGrid } from '@/components/layout/homepage/hero/StatsGrid';
 import { Badge } from '@/components/ui/badge';
 import { Heading } from '@/components/ui/heading';
-import HeroCTA from '@/components/layout/homepage/hero/HeroCTA';
+import { HeroCTA } from '@/components/layout/homepage/hero/HeroCTA';
 
 export const HeroSection = () => {
   const heroHeading = hero.heading;

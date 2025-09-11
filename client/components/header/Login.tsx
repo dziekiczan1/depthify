@@ -9,7 +9,7 @@ type CustomUser = DefaultUser & {
   username?: string;
 };
 
-const Login = () => {
+export const Login = () => {
   const { data: session } = useSession();
   const user = session?.user as CustomUser;
 
@@ -40,5 +40,3 @@ const Login = () => {
     </div>
   );
 };
-
-export default Login;

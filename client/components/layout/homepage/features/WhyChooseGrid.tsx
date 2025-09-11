@@ -1,10 +1,11 @@
-import WhyChooseCard from './WhyChooseCard';
+import { WhyChooseCard } from './WhyChooseCard';
 import { featuresHeadings, whyChooseData } from '@/lib/homepage/features';
 import { Heading } from '@/components/ui/heading';
 import { Grid } from '@/components/ui/grid';
 
-export default function WhyChooseGrid() {
+export const WhyChooseGrid = () => {
   const features = featuresHeadings.whychoose;
+
   return (
     <section className="gradient-cyan-soft rounded-3xl p-8 md:p-12">
       <Heading
@@ -25,4 +26,4 @@ export default function WhyChooseGrid() {
       </Grid>
     </section>
   );
-}
+};

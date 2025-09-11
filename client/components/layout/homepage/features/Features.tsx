@@ -1,7 +1,7 @@
-import LayoutContainer from '@/components/layout/LayoutContainer';
+import { LayoutContainer } from '@/components/layout/LayoutContainer';
 import { Heading } from '@/components/ui/heading';
-import FeaturesGrid from '@/components/layout/homepage/features/FeaturesGrid';
-import WhyChooseGrid from '@/components/layout/homepage/features/WhyChooseGrid';
+import { FeaturesGrid } from '@/components/layout/homepage/features/FeaturesGrid';
+import { WhyChooseGrid } from '@/components/layout/homepage/features/WhyChooseGrid';
 import { featuresHeadings } from '@/lib/homepage/features';
 
 export const Features = () => {

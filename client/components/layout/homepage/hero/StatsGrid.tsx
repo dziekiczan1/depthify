@@ -9,7 +9,7 @@ type StatsGridProps = {
   className?: string;
 };
 
-const StatsGrid = ({ stats, statsTitle, className }: StatsGridProps) => {
+export const StatsGrid = ({ stats, statsTitle, className }: StatsGridProps) => {
   return (
     <dl
       className={`grid grid-cols-2 md:grid-cols-4 gap-8 max-w-3xl mx-auto ${className}`}
@@ -24,5 +24,3 @@ const StatsGrid = ({ stats, statsTitle, className }: StatsGridProps) => {
     </dl>
   );
 };
-
-export default StatsGrid;

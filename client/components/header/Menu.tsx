@@ -10,14 +10,14 @@ export interface NavItem {
   href: string;
 }
 
-const navigationItems: NavItem[] = [
+export const navigationItems: NavItem[] = [
   { label: 'Home', href: '/' },
   { label: 'About', href: '/about' },
   { label: 'Services', href: '/services' },
   { label: 'Contact', href: '/contact' },
 ];
 
-const MenuItem = ({ item }: { item: NavItem }) => (
+export const MenuItem = ({ item }: { item: NavItem }) => (
   <Link
     href={item.href}
     className="block md:inline-block link link-default py-4 px-6 md:py-0 md:px-0">
@@ -25,7 +25,7 @@ const MenuItem = ({ item }: { item: NavItem }) => (
   </Link>
 );
 
-const Menu = () => {
+export const Menu = () => {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -84,5 +84,3 @@ const Menu = () => {
     </nav>
   );
 };
-
-export default Menu;

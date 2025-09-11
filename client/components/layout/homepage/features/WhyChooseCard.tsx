@@ -13,7 +13,7 @@ interface WhyChooseCardProps {
   feature: BaseFeature;
 }
 
-export default function WhyChooseCard({ feature }: WhyChooseCardProps) {
+export const WhyChooseCard = ({ feature }: WhyChooseCardProps) => {
   const Icon = icons[feature.icon];
 
   return (
@@ -34,4 +34,4 @@ export default function WhyChooseCard({ feature }: WhyChooseCardProps) {
       />
     </div>
   );
-}
+};

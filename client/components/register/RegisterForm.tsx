@@ -27,7 +27,7 @@ import { signIn } from 'next-auth/react';
 import { ROUTES } from '@/lib/routes';
 import { usePasswordVisibility } from '@/lib/hooks/usePasswordVisibility';
 
-const RegisterForm = () => {
+export const RegisterForm = () => {
   const router = useRouter();
   const [error, setError] = useState<string | undefined>('');
   const [success, setSuccess] = useState<string | undefined>('');
@@ -202,5 +202,3 @@ const RegisterForm = () => {
     </>
   );
 };
-
-export default RegisterForm;
