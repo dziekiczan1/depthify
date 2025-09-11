@@ -9,9 +9,9 @@ interface HeadingProps {
   subtitle?: string;
   description?: string;
   gradient?: boolean;
-  size?: 'xl' | 'lg' | 'md' | 'sm' | 'xs';
+  size?: 'xl' | 'lg' | 'md' | 'base' | 'sm' | 'xs';
   headingClassName?: string;
-  descriptionSize?: 'xl' | 'lg' | 'md' | 'sm';
+  descriptionSize?: 'xl' | 'lg' | 'md' | 'base' | 'sm';
   descriptionClassName?: string;
   color?: string;
   center?: boolean;
@@ -37,6 +37,7 @@ export const Heading: React.FC<HeadingProps> = ({
     xl: 'text-4xl md:text-6xl lg:text-7xl font-bold leading-none mb-8',
     lg: 'text-3xl md:text-4xl font-bold mb-4',
     md: 'text-2xl md:text-3xl font-bold mb-4',
+    base: 'text-xl font-bold mb-2',
     sm: 'text-lg font-semibold mb-2',
     xs: 'text-base font-semibold mb-2',
   };
@@ -45,6 +46,7 @@ export const Heading: React.FC<HeadingProps> = ({
     xl: 'text-xl md:text-2xl max-w-3xl leading-relaxed mb-8',
     lg: 'text-xl max-w-3xl mb-16',
     md: 'text-lg max-w-2xl mx-auto',
+    base: 'text-base max-w-2xl',
     sm: 'text-sm',
   };
 
