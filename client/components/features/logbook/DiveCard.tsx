@@ -1,109 +1,101 @@
-import {
-  CalendarIcon,
-  StarIcon,
-  MapPinIcon,
-  ClockIcon,
-  ThermometerIcon,
-  EyeIcon,
-  CameraIcon,
-} from 'lucide-react';
+import { CalendarIcon, StarIcon, CameraIcon, ArrowRight } from 'lucide-react';
 import { DiveLogEntry } from '@/lib/homepage/logbook';
 import { cn } from '@/lib/utils';
+import {
+  DiveStatProps,
+  diveStatsConfig,
+} from '@/components/layout/homepage/logbook/diveStatsConfig';
+import Link from 'next/link';
 
 export const DiveCard = ({ dive }: { dive: DiveLogEntry }) => {
   return (
-    <div className="p-8 hover:bg-slate-50 transition-colors">
-      <div className="flex justify-between items-start mb-4">
+    <article
+      className="p-8 hover:bg-slate-50 transition-colors"
+      aria-labelledby={`dive-${dive.id}-title`}>
+      <header className="flex justify-between items-start mb-4">
         <div>
-          <h4 className="text-lg font-semibold text-slate-900 mb-1">{dive.title}</h4>
+          <h3 id={`dive-${dive.id}-title`} className="text-lg font-semibold text-slate-900 mb-1">
+            {dive.title}
+          </h3>
           <div className="flex items-center text-slate-500 text-sm">
-            <CalendarIcon className="w-4 h-4 mr-1" />
-            {dive.date}
+            <CalendarIcon className="icon-size-md mr-1" aria-hidden />
+            <time dateTime={dive.date}>{dive.date}</time>
           </div>
         </div>
+
+        <meter
+          min={0}
+          max={5}
+          value={dive.rating}
+          aria-label={`Rating: ${dive.rating} out of 5 stars`}
+          className="hidden"
+        />
         <div className="flex items-center">
           {Array.from({ length: 5 }).map((_, i) => (
             <StarIcon
               key={i}
               className={cn(
-                'w-4 h-4',
+                'icon-size-md',
                 i < dive.rating ? 'text-yellow-400 fill-current' : 'text-slate-300'
               )}
+              aria-hidden
             />
           ))}
         </div>
-      </div>
+      </header>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
-        <DiveStat
-          icon={<MapPinIcon className="w-4 h-4 text-blue-600" />}
-          label="Głębokość"
-          value={dive.depth}
-          bg="bg-blue-100"
-        />
-        <DiveStat
-          icon={<ClockIcon className="w-4 h-4 text-cyan-600" />}
-          label="Czas"
-          value={dive.time}
-          bg="bg-cyan-100"
-        />
-        <DiveStat
-          icon={<ThermometerIcon className="w-4 h-4 text-orange-600" />}
-          label="Temperatura"
-          value={dive.temperature}
-          bg="bg-orange-100"
-        />
-        <DiveStat
-          icon={<EyeIcon className="w-4 h-4 text-green-600" />}
-          label="Widoczność"
-          value={dive.visibility}
-          bg="bg-green-100"
-        />
-      </div>
-
-      <p className="text-slate-600 text-sm mb-3 leading-relaxed">{dive.description}</p>
-
-      <div className="flex flex-wrap gap-2 mb-3">
-        {dive.tags.map((tag) => (
-          <span
-            key={tag}
-            className="px-3 py-1 bg-blue-100 text-blue-700 text-xs font-medium rounded-full">
-            {tag}
-          </span>
+        {diveStatsConfig.map((stat) => (
+          <DiveStat
+            key={stat.label}
+            {...stat}
+            value={dive[stat.label.toLowerCase() as keyof typeof dive] as string}
+          />
         ))}
       </div>
 
-      <div className="flex items-center justify-between">
+      <p className="text-slate-600 text-sm mb-4 leading-relaxed">{dive.description}</p>
+
+      <ul className="flex flex-wrap gap-2 mb-4" aria-label="Tagi nurkowania">
+        {dive.tags.map((tag) => (
+          <li key={tag}>
+            <span className="px-3 py-1 bg-blue-100 text-blue-800 text-xs font-medium rounded-full">
+              {tag}
+            </span>
+          </li>
+        ))}
+      </ul>
+
+      <footer className="flex items-center justify-between">
         <div className="flex items-center text-slate-500 text-sm">
-          <CameraIcon className="w-4 h-4 mr-1" />
-          {dive.photosCount} zdjęć
+          <CameraIcon className="icon-size-md mr-2" aria-hidden />
+          <span>{dive.photosCount} photos</span>
         </div>
-        <button className="text-blue-600 hover:text-blue-700 text-sm font-medium">
-          Zobacz szczegóły →
-        </button>
-      </div>
-    </div>
+
+        <Link
+          href={`/dives/${dive.id}`}
+          className="link link-default flex items-center gap-2"
+          aria-label="Go to dive details">
+          View details
+          <ArrowRight size={16} aria-hidden />
+        </Link>
+      </footer>
+    </article>
   );
 };
 
-export const DiveStat = ({
-  icon,
-  label,
-  value,
-  bg,
-}: {
-  icon: React.ReactNode;
-  label: string;
-  value: string;
-  bg: string;
-}) => {
+export const DiveStat = ({ icon, label, value, bg, iconColor }: DiveStatProps) => {
   return (
     <div className="flex items-center space-x-2 text-sm">
-      <div className={cn('w-8 h-8 rounded-lg flex items-center justify-center', bg)}>{icon}</div>
-      <div>
-        <div className="text-slate-500">{label}</div>
-        <div className="font-semibold text-slate-900">{value}</div>
+      <div
+        className={cn('icon-bg-size-md rounded-lg flex items-center justify-center', bg)}
+        aria-hidden>
+        <span className={iconColor}>{icon}</span>
       </div>
+      <dl>
+        <dt className="text-slate-500">{label}</dt>
+        <dd className="font-semibold text-slate-900">{value}</dd>
+      </dl>
     </div>
   );
 };
