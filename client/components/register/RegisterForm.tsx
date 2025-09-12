@@ -92,7 +92,7 @@ export const RegisterForm = () => {
         variant={`outline`}
         className="w-full flex justify-center items-center gap-2 mb-6"
         size="lg"
-        aria-label={`Register with Google`}>
+        aria-label="Register with Google">
         <GoogleIcon />
         Register with Google
       </Button>
@@ -168,14 +168,14 @@ export const RegisterForm = () => {
           {error && <FormError message={error} />}
           {success && <FormSuccess message={success} />}
           {isLoading ? (
-            <Loader aria-label={`Loading...`} />
+            <Loader aria-label="Loading..." />
           ) : (
             <Button
               type="submit"
               disabled={!form.formState.isValid || isLoading}
               className="w-full flex justify-center items-center gap-2"
               size="lg"
-              aria-label={`Register account`}>
+              aria-label="Register account">
               Register
               <ArrowRight
                 size={24}
@@ -194,7 +194,7 @@ export const RegisterForm = () => {
             size={`link`}
             onClick={() => router.push(ROUTES.LOGIN)}
             className="font-semibold pl-1"
-            aria-label={`Log in`}>
+            aria-label="Log in">
             Log in
           </Button>
         </p>

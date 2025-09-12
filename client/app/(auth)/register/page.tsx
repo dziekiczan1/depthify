@@ -1,6 +1,6 @@
-import RegisterForm from '@/components/register/RegisterForm';
 import { FormHeadings } from '@/lib/formUtils';
 import { Heading } from '@/components/ui/heading';
+import { RegisterForm } from '@/components/register/RegisterForm';
 
 const RegisterPage = () => {
   return (

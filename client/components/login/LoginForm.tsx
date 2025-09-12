@@ -80,7 +80,7 @@ export const LoginForm = () => {
         variant={`outline`}
         className="w-full flex justify-center items-center gap-2 mb-6"
         size="lg"
-        aria-label={`Log in with Google`}>
+        aria-label="Log in with Google">
         <GoogleIcon />
         Log in with Google
       </Button>
@@ -156,14 +156,14 @@ export const LoginForm = () => {
           {error && <FormError message={error} />}
           {success && <FormSuccess message={success} />}
           {isLoading ? (
-            <Loader aria-label={`Loading...`} />
+            <Loader aria-label="Loading..." />
           ) : (
             <Button
               type="submit"
               disabled={!form.formState.isValid || isLoading}
               className="w-full flex justify-center items-center gap-2"
               size="lg"
-              aria-label={`Log in`}>
+              aria-label="Log in">
               Log in
               <ArrowRight
                 size={24}
@@ -182,7 +182,7 @@ export const LoginForm = () => {
             size={`link`}
             onClick={() => router.push(ROUTES.REGISTER)}
             className="font-semibold pl-1"
-            aria-label={`Register`}>
+            aria-label="Register">
             Register
           </Button>
         </p>

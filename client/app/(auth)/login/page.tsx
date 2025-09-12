@@ -1,6 +1,6 @@
-import LoginForm from '@/components/login/LoginForm';
 import { FormHeadings } from '@/lib/formUtils';
 import { Heading } from '@/components/ui/heading';
+import { LoginForm } from '@/components/login/LoginForm';
 
 const LoginPage = () => {
   return (
