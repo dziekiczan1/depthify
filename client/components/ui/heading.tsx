@@ -9,6 +9,7 @@ interface HeadingProps {
   subtitle?: string;
   description?: string;
   gradient?: boolean;
+  gradientVariant?: 'cyan' | 'cyanLight';
   size?: 'xl' | 'lg' | 'md' | 'base' | 'sm' | 'xs';
   headingClassName?: string;
   descriptionSize?: 'xl' | 'lg' | 'md' | 'base' | 'sm';
@@ -25,6 +26,7 @@ export const Heading: React.FC<HeadingProps> = ({
   subtitle,
   description,
   gradient = false,
+  gradientVariant = 'cyan',
   size = 'xl',
   headingClassName,
   descriptionSize = 'md',
@@ -50,7 +52,12 @@ export const Heading: React.FC<HeadingProps> = ({
     sm: 'text-sm',
   };
 
-  const gradientClasses = gradient ? 'gradient-cyan bg-clip-text text-transparent' : '';
+  const gradientVariants = {
+    cyan: 'gradient-cyan bg-clip-text text-transparent',
+    cyanLight: 'gradient-cyan-light bg-clip-text text-transparent',
+  };
+
+  const gradientClasses = gradient ? gradientVariants[gradientVariant] : '';
 
   return (
     <div className={clsx(center && 'text-center', 'w-full', className)}>
