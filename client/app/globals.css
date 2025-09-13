@@ -87,6 +87,14 @@
     @apply bg-gradient-to-r from-blue-500 to-cyan-500;
   }
 
+  .gradient-cyan-light {
+    @apply bg-gradient-to-r from-blue-400 to-cyan-400;
+  }
+
+  .gradient-dark-cyan {
+    @apply bg-gradient-to-br from-blue-900 via-slate-900 to-cyan-900;
+  }
+
   .section-default {
     @apply py-20;
   }
@@ -98,4 +106,13 @@
   .icon-size-md {
     @apply w-4 h-4;
   }
+}
+
+.animate-slow-ping {
+  animation: slow-ping 2s cubic-bezier(0, 0, 0.2, 0.5) infinite;
+}
+
+@keyframes slow-ping {
+  0% { transform: scale(1); opacity: 1; }
+  75%, 100% { transform: scale(2); opacity: 0; }
 }
