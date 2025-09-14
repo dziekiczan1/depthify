@@ -36,7 +36,7 @@ export const FeatureCard = ({ feature }: FeatureCardProps) => {
       tabIndex={0}>
       <div
         className={`w-12 h-12 bg-gradient-to-r ${feature.gradientFrom} ${feature.gradientTo} rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
-        <Icon className="w-6 h-6 text-white" aria-hidden />
+        <Icon className="icon-size-lg text-white" aria-hidden />
       </div>
       <Heading
         as="h3"

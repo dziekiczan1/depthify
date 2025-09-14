@@ -13,7 +13,7 @@ export const Logo = () => {
           whileHover={{ scale: 1.15 }}
           animate={{ y: [0, -5, 0] }}
           transition={{ repeat: Infinity, duration: 3, ease: 'easeInOut' }}>
-          <Bubbles className="w-6 h-6 text-white" />
+          <Bubbles className="icon-size-lg text-white" />
         </motion.div>
       </Link>
 

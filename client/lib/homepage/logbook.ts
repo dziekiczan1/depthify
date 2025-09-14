@@ -40,6 +40,14 @@ export const logbookSubHeading: SectionHeading = {
   description: 'Your latest underwater adventures',
 };
 
+export const diveStatsHeading: SectionHeading = {
+  title: 'Your Stats',
+};
+
+export const achievementsCardHeading: SectionHeading = {
+  title: 'Recent Achievements',
+};
+
 export enum DiveStatLabel {
   Depth = 'Depth',
   Time = 'Time',
