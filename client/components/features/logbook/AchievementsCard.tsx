@@ -1,5 +1,10 @@
-import { achievementsData, AchievementsData } from '@/lib/homepage/logbook';
+import {
+  achievementsCardHeading,
+  achievementsData,
+  AchievementsData,
+} from '@/lib/homepage/logbook';
 import { Star, Camera } from 'lucide-react';
+import { Heading } from '@/components/ui/heading';
 
 const icons = {
   star: Star,
@@ -11,9 +16,12 @@ export const AchievementsCard = () => {
     <section
       aria-labelledby="achievements-heading"
       className="bg-gradient-to-br from-yellow-50 to-orange-50 rounded-2xl border border-yellow-200 p-6">
-      <h3 id="achievements-heading" className="text-lg font-semibold text-slate-900 mb-4">
-        Recent Achievements
-      </h3>
+      <Heading
+        as="h3"
+        title={achievementsCardHeading.title}
+        size="sm"
+        headingClassName="mb-4 text-slate-900 font-semibold"
+      />
       <ul className="space-y-3">
         {achievementsData.map((achievement: AchievementsData) => {
           const Icon = icons[achievement.icon as keyof typeof icons];

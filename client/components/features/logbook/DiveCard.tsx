@@ -6,6 +6,7 @@ import {
   diveStatsConfig,
 } from '@/components/layout/homepage/logbook/diveStatsConfig';
 import Link from 'next/link';
+import { StarRating } from '@/components/features/logbook/StarRating';
 
 export const DiveCard = ({ dive }: { dive: DiveLogEntry }) => {
   return (
@@ -23,25 +24,7 @@ export const DiveCard = ({ dive }: { dive: DiveLogEntry }) => {
           </div>
         </div>
 
-        <meter
-          min={0}
-          max={5}
-          value={dive.rating}
-          aria-label={`Rating: ${dive.rating} out of 5 stars`}
-          className="hidden"
-        />
-        <div className="flex items-center">
-          {Array.from({ length: 5 }).map((_, i) => (
-            <StarIcon
-              key={i}
-              className={cn(
-                'icon-size-md',
-                i < dive.rating ? 'text-yellow-400 fill-current' : 'text-slate-300'
-              )}
-              aria-hidden
-            />
-          ))}
-        </div>
+        <StarRating rating={dive.rating} inactiveColor="text-slate-300" />
       </header>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
