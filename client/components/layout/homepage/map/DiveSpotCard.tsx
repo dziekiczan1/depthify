@@ -1,9 +1,9 @@
-import { DiveModalSpot } from '@/lib/homepage/map';
 import { StarRating } from '@/components/features/logbook/StarRating';
+import { DiveSpot } from '@/lib/homepage/dives';
 
 interface DiveSpotCardProps {
-  spot: DiveModalSpot;
-  onClick?: (spot: DiveModalSpot) => void;
+  spot: DiveSpot;
+  onClick?: (spot: DiveSpot) => void;
 }
 
 export const DiveSpotCard = ({ spot, onClick }: DiveSpotCardProps) => {

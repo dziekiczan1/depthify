@@ -1,9 +1,9 @@
 import { DiveSpotCard } from '@/components/layout/homepage/map/DiveSpotCard';
-import { DiveModalSpot } from '@/lib/homepage/map';
+import { DiveSpot } from '@/lib/homepage/dives';
 
 export interface DiveSpotsGridProps {
-  spots: DiveModalSpot[];
-  onSelect?: (spot: DiveModalSpot) => void;
+  spots: DiveSpot[];
+  onSelect?: (spot: DiveSpot) => void;
 }
 
 export const DiveSpotsGrid = ({ spots = [], onSelect }: DiveSpotsGridProps) => {

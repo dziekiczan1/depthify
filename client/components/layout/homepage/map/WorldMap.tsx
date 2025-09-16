@@ -2,20 +2,21 @@
 
 import DottedMap from 'dotted-map';
 import { MapPin } from 'lucide-react';
-import { DiveModalSpot, legendItems } from '@/lib/homepage/map';
+import { legendItems } from '@/lib/homepage/map';
 import { useMemo, useState } from 'react';
 import { DiveModal } from '@/components/layout/homepage/map/DiveModal';
 import { Tooltip } from '@/components/ui/tooltip';
 import { MapLegend } from '@/components/layout/homepage/map/MapLegend';
 import { DiveSpotsGrid } from '@/components/layout/homepage/map/DiveSpotsGrid';
+import { DiveSpot } from '@/lib/homepage/dives';
 
 export interface WorldMapProps {
-  spots: DiveModalSpot[];
+  spots: DiveSpot[];
 }
 
 export const WorldMap = ({ spots = [] }: WorldMapProps) => {
   const [hovered, setHovered] = useState<number | null>(null);
-  const [selectedSpot, setSelectedSpot] = useState<DiveModalSpot | null>(null);
+  const [selectedSpot, setSelectedSpot] = useState<DiveSpot | null>(null);
   const map = useMemo(() => new DottedMap({ height: 80, grid: 'diagonal' }), []);
 
   const svgMap = useMemo(
