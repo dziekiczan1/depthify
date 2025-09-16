@@ -49,54 +49,20 @@ export const achievementsCardHeading: SectionHeading = {
 };
 
 export enum DiveStatLabel {
-  Depth = 'Depth',
-  Time = 'Time',
-  Temperature = 'Temperature',
-  Visibility = 'Visibility',
+  DEPTH = 'Depth',
+  TIME = 'Time',
+  TEMPERATURE = 'Temperature',
+  VISIBILITY = 'Visibility',
+  BESTTIME = 'Best Time',
 }
 
-export const demoDives: DiveLogEntry[] = [
-  {
-    id: '1',
-    title: 'Maldives - Banana Reef',
-    date: '2024-08-25',
-    rating: 5,
-    depth: '28m',
-    time: '45 min',
-    temperature: '28°C',
-    visibility: '30m',
-    description: 'An amazing dive with whale sharks! Excellent visibility, crystal-clear water.',
-    tags: ['Whale Shark', 'Manta', 'Parrotfish', 'Moray Eels'],
-    photosCount: 12,
-  },
-  {
-    id: '2',
-    title: 'Egipt - Thistlegorm Wreck',
-    date: '2024-07-10',
-    rating: 4,
-    depth: '30m',
-    time: '50 min',
-    temperature: '26°C',
-    visibility: '20m',
-    description:
-      'A wreck dive full of history and marine life. Motorbikes and motorcycles still visible inside the wreck.',
-    tags: ['Wreck', 'Turtles', 'Barracudas'],
-    photosCount: 18,
-  },
-  {
-    id: '3',
-    title: 'Chorwacja - Blue Cave',
-    date: '2024-06-05',
-    rating: 3,
-    depth: '18m',
-    time: '40 min',
-    temperature: '24°C',
-    visibility: '15m',
-    description: 'A calm dive in a beautiful cave illuminated by natural light.',
-    tags: ['Cave', 'Octopus', 'Crabs'],
-    photosCount: 8,
-  },
-];
+export enum DiveStatKey {
+  DEPTH = 'depth',
+  TIME = 'time',
+  TEMPERATURE = 'temperature',
+  VISIBILITY = 'visibility',
+  BESTTIME = 'bestTime',
+}
 
 export const statsData: StatsData[] = [
   { label: 'Total Dives', value: '127', color: 'text-blue-600' },

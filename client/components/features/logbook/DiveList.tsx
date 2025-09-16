@@ -1,7 +1,7 @@
 import { DiveCard } from './DiveCard';
-import { DiveLogEntry } from '@/lib/homepage/logbook';
+import { DiveSpot } from '@/lib/homepage/dives';
 
-export const DiveList = ({ dives }: { dives: DiveLogEntry[] }) => {
+export const DiveList = ({ dives }: { dives: DiveSpot[] }) => {
   return (
     <div className="divide-y divide-slate-100">
       {dives.map((dive) => (

@@ -1,9 +1,10 @@
 import { LayoutContainer } from '@/components/layout/LayoutContainer';
 import { Heading } from '@/components/ui/heading';
-import { demoDives, logbookHeading, logbookSubHeading } from '@/lib/homepage/logbook';
+import { logbookHeading, logbookSubHeading } from '@/lib/homepage/logbook';
 import { DiveList } from '@/components/features/logbook/DiveList';
 import { StatsCard } from '@/components/features/logbook/StatsCard';
 import { AchievementsCard } from '@/components/features/logbook/AchievementsCard';
+import { diveSpots } from '@/lib/homepage/dives';
 
 export const Logbook = () => {
   return (
@@ -32,7 +33,7 @@ export const Logbook = () => {
                 headingClassName="text-white"
                 descriptionClassName="text-blue-100"
               />
-              <DiveList dives={demoDives} />
+              <DiveList dives={diveSpots} />
             </div>
           </div>
           <div className="space-y-6">

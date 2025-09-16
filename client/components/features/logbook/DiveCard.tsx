@@ -1,5 +1,4 @@
-import { CalendarIcon, StarIcon, CameraIcon, ArrowRight } from 'lucide-react';
-import { DiveLogEntry } from '@/lib/homepage/logbook';
+import { CalendarIcon, CameraIcon, ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
   DiveStatProps,
@@ -7,8 +6,10 @@ import {
 } from '@/components/layout/homepage/logbook/diveStatsConfig';
 import Link from 'next/link';
 import { StarRating } from '@/components/features/logbook/StarRating';
+import { DiveSpot } from '@/lib/homepage/dives';
+import { DiveStatKey } from '@/lib/homepage/logbook';
 
-export const DiveCard = ({ dive }: { dive: DiveLogEntry }) => {
+export const DiveCard = ({ dive }: { dive: DiveSpot }) => {
   return (
     <article
       className="p-8 hover:bg-slate-50 transition-colors"
@@ -16,7 +17,7 @@ export const DiveCard = ({ dive }: { dive: DiveLogEntry }) => {
       <header className="flex justify-between items-start mb-4">
         <div>
           <h3 id={`dive-${dive.id}-title`} className="text-lg font-semibold text-slate-900 mb-1">
-            {dive.title}
+            {dive.country} - {dive.title}
           </h3>
           <div className="flex items-center text-slate-500 text-sm">
             <CalendarIcon className="icon-size-md mr-1" aria-hidden />
@@ -28,22 +29,24 @@ export const DiveCard = ({ dive }: { dive: DiveLogEntry }) => {
       </header>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
-        {diveStatsConfig.map((stat) => (
-          <DiveStat
-            key={stat.label}
-            {...stat}
-            value={dive[stat.label.toLowerCase() as keyof typeof dive] as string}
-          />
-        ))}
+        {diveStatsConfig
+          .filter((stat) => stat.statKey !== DiveStatKey.BESTTIME)
+          .map((stat) => (
+            <DiveStat
+              key={stat.statKey}
+              {...stat}
+              value={dive.stats[stat.label.toLowerCase() as keyof (typeof dive)['stats']] as string}
+            />
+          ))}
       </div>
 
       <p className="text-slate-600 text-sm mb-4 leading-relaxed">{dive.description}</p>
 
       <ul className="flex flex-wrap gap-2 mb-4" aria-label="Tagi nurkowania">
-        {dive.tags.map((tag) => (
-          <li key={tag}>
+        {dive.attractions?.map((attraction) => (
+          <li key={attraction}>
             <span className="px-3 py-1 bg-blue-100 text-blue-800 text-xs font-medium rounded-full">
-              {tag}
+              {attraction}
             </span>
           </li>
         ))}
@@ -67,7 +70,7 @@ export const DiveCard = ({ dive }: { dive: DiveLogEntry }) => {
   );
 };
 
-export const DiveStat = ({ icon, label, value, bg, iconColor }: DiveStatProps) => {
+export const DiveStat = ({ icon, label, value, bg, iconColor, unit }: DiveStatProps) => {
   return (
     <div className="flex items-center space-x-2 text-sm">
       <div
@@ -77,7 +80,9 @@ export const DiveStat = ({ icon, label, value, bg, iconColor }: DiveStatProps) =
       </div>
       <dl>
         <dt className="text-slate-500">{label}</dt>
-        <dd className="font-semibold text-slate-900">{value}</dd>
+        <dd className="font-semibold text-slate-900">
+          {value} {unit}
+        </dd>
       </dl>
     </div>
   );
