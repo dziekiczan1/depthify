@@ -8,6 +8,8 @@ export enum DiveLevel {
 
 export interface MapLegendItem {
   color: string;
+  darkBg: string;
+  textColor?: string;
   label: string;
 }
 
@@ -21,7 +23,22 @@ export const mapHeading: SectionHeading = {
 export const mapLegendAriaLabel: string = 'Diver skill levels';
 
 export const legendItems: MapLegendItem[] = [
-  { color: 'bg-green-600', label: DiveLevel.BEGINNER },
-  { color: 'bg-yellow-600', label: DiveLevel.INTERMEDIATE },
-  { color: 'bg-red-600', label: DiveLevel.ADVANCED },
+  {
+    color: 'bg-green-600',
+    darkBg: 'bg-green-600/20',
+    textColor: 'text-green-500',
+    label: DiveLevel.BEGINNER,
+  },
+  {
+    color: 'bg-yellow-600',
+    darkBg: 'bg-yellow-600/20',
+    textColor: 'text-yellow-500',
+    label: DiveLevel.INTERMEDIATE,
+  },
+  {
+    color: 'bg-red-600',
+    darkBg: 'bg-red-600/20',
+    textColor: 'text-red-500',
+    label: DiveLevel.ADVANCED,
+  },
 ];

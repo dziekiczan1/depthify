@@ -40,9 +40,19 @@ export const WorldMap = ({ spots = [] }: WorldMapProps) => {
     return { x, y };
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent, spot: DiveSpot) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      setSelectedSpot(spot);
+    }
+  };
+
   return (
     <>
-      <div className="w-full aspect-[2/1] relative bg-gradient-to-br from-blue-950 to-slate-950 rounded-2xl border border-slate-600">
+      <div
+        className="w-full aspect-[2/1] relative bg-gradient-to-br from-blue-950 to-slate-950 rounded-2xl border border-slate-600"
+        role="region"
+        aria-label="World map with dive spots">
         <img
           src={`data:image/svg+xml;utf8,${encodeURIComponent(svgMap)}`}
           className="h-full w-full pointer-events-none select-none"
@@ -54,22 +64,35 @@ export const WorldMap = ({ spots = [] }: WorldMapProps) => {
           const { x, y } = projectPoint(spot.lat, spot.lng);
           const bgColor =
             legendItems.find((item) => item.label === spot.level)?.color || 'bg-gray-700';
+          const isHovered = hovered === i;
 
           return (
-            <div
-              key={i}
-              className="absolute transition-all duration-300 scale-100 hover:cursor-pointer hover:z-50"
-              style={{ left: `${x}%`, top: `${y}%`, transform: 'translate(-50%, -50%)' }}
+            <button
+              key={spot.id}
+              type="button"
+              aria-label={`${spot.title}, ${spot.country}, ${spot.level} dive site`}
+              className={`absolute transition-all duration-300 scale-100 rounded-full focus-ring
+                ${isHovered ? 'scale-105 cursor-pointer z-30' : ''}`}
+              style={{
+                left: `${x}%`,
+                top: `${y}%`,
+                transform: 'translate(-50%, -50%)',
+              }}
               onMouseEnter={() => setHovered(i)}
               onMouseLeave={() => setHovered(null)}
-              onClick={() => setSelectedSpot(spot)}>
+              onClick={() => setSelectedSpot(spot)}
+              onKeyDown={(e) => handleKeyDown(e, spot)}>
               <div
                 className={`icon-size-lg rounded-full border-2 border-white shadow-lg transition-all duration-300 relative ${bgColor}`}>
                 <MapPin className="icon-size-md text-white absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
               </div>
-              {hovered === i && <Tooltip title={spot.title} country={spot.country} />}
-              <div className="absolute inset-0 rounded-full border-2 border-white animate-slow-ping"></div>
-            </div>
+              {isHovered && <Tooltip title={spot.title} country={spot.country} />}
+              <div
+                className={`absolute inset-0 rounded-full border-2 ${
+                  isHovered ? 'border-violet-400' : 'border-white'
+                } animate-slow-ping`}
+              />
+            </button>
           );
         })}
       </div>
@@ -82,7 +105,7 @@ export const WorldMap = ({ spots = [] }: WorldMapProps) => {
       )}
 
       <MapLegend />
-      <DiveSpotsGrid spots={spots} onSelect={setSelectedSpot} />
+      <DiveSpotsGrid spots={spots} onSelect={setSelectedSpot} onHoverIndex={(i) => setHovered(i)} />
     </>
   );
 };
