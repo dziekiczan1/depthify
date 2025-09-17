@@ -9,7 +9,8 @@ import {
 } from '@/components/layout/homepage/logbook/diveStatsConfig';
 import { DiveStatKey } from '@/lib/homepage/logbook';
 import { DiveSpot } from '@/lib/homepage/dives';
-import { cn } from '@/lib/utils';
+import { Heading } from '@/components/ui/heading';
+import { legendItems } from '@/lib/homepage/map';
 
 interface DiveModalProps {
   isOpen: boolean;
@@ -18,6 +19,9 @@ interface DiveModalProps {
 }
 
 export const DiveModal: React.FC<DiveModalProps> = ({ isOpen, onClose, spot }) => {
+  const legend = legendItems.find((item) => item.label === spot.level);
+  const levelClass = `${legend?.darkBg ?? 'bg-gray-600/20'} ${legend?.textColor ?? 'text-white'}`;
+
   if (!isOpen) return null;
 
   return (
@@ -38,9 +42,14 @@ export const DiveModal: React.FC<DiveModalProps> = ({ isOpen, onClose, spot }) =
           </Button>
 
           <div className="flex flex-col items-start space-x-4">
-            <h2 id="modal-title" className="text-2xl font-bold text-white mb-1">
-              {spot.title}
-            </h2>
+            <Heading
+              id="modal-title"
+              as="h2"
+              title={spot.title}
+              size="sm"
+              className="!w-fit"
+              headingClassName="!text-2xl font-bold text-white"
+            />
             {spot.country && <p className="text-slate-400 mb-3">{spot.country}</p>}
 
             <div className="flex items-center space-x-4">
@@ -51,7 +60,9 @@ export const DiveModal: React.FC<DiveModalProps> = ({ isOpen, onClose, spot }) =
                 )}
               </div>
               {spot.level && (
-                <div className="px-3 py-1 rounded-full text-xs font-medium bg-green-500/20 text-green-400">
+                <div
+                  className={`px-3 py-1 rounded-full text-xs font-medium ${levelClass}`}
+                  aria-label={`Dive level: ${spot.level}`}>
                   {spot.level}
                 </div>
               )}
@@ -80,7 +91,12 @@ export const DiveModal: React.FC<DiveModalProps> = ({ isOpen, onClose, spot }) =
 
           {spot.attractions && (
             <div className="mb-6">
-              <h3 className="text-white font-semibold mb-3">Główne atrakcje</h3>
+              <Heading
+                as="h3"
+                title="Main attractions"
+                size="xs"
+                headingClassName="text-white font-semibold mb-3"
+              />
               <div className="flex flex-wrap gap-2">
                 {spot.attractions.map((attr: any, i: any) => (
                   <span
@@ -95,7 +111,12 @@ export const DiveModal: React.FC<DiveModalProps> = ({ isOpen, onClose, spot }) =
 
           {spot.wildlife && (
             <div>
-              <h3 className="text-white font-semibold mb-3">Życie morskie</h3>
+              <Heading
+                as="h3"
+                title="Sea life"
+                size="xs"
+                headingClassName="text-white font-semibold mb-3"
+              />
               <div className="flex flex-wrap gap-2">
                 {spot.wildlife.map((w, i) => (
                   <span
@@ -113,13 +134,18 @@ export const DiveModal: React.FC<DiveModalProps> = ({ isOpen, onClose, spot }) =
   );
 };
 
-export const ModalDiveStat = ({ icon, label, value, bg, iconColor, unit }: DiveStatProps) => {
+export const ModalDiveStat = ({ icon, label, value, unit }: DiveStatProps) => {
   return (
     <div className="bg-slate-700/50 rounded-lg p-3 text-center">
-      <div className={`flex justify-center mb-2 text-slate-200`}>{icon}</div>
-      <div className="text-white font-semibold mb-1 text-sm">
-        {value} {unit}
+      <div className="flex justify-center mb-2 text-slate-400" aria-hidden="true">
+        {icon}
       </div>
+      <dl>
+        <dt className="sr-only">{label}</dt>
+        <dd className="text-white font-semibold mb-1 text-sm">
+          {value} {unit}
+        </dd>
+      </dl>
       <div className="text-slate-400 text-xs">{label}</div>
     </div>
   );
