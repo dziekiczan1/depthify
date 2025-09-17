@@ -3,6 +3,7 @@ import clsx from 'clsx';
 type HeadingLevel = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 
 interface HeadingProps {
+  id?: string;
   as?: HeadingLevel;
   title: string;
   highlight?: string;
@@ -20,6 +21,7 @@ interface HeadingProps {
 }
 
 export const Heading: React.FC<HeadingProps> = ({
+  id,
   as: Tag = 'h1',
   title,
   highlight,
@@ -61,7 +63,7 @@ export const Heading: React.FC<HeadingProps> = ({
 
   return (
     <div className={clsx(center && 'text-center', 'w-full', className)}>
-      <Tag className={clsx(sizeClasses[size], color, headingClassName)}>
+      <Tag className={clsx(sizeClasses[size], color, headingClassName)} id={id}>
         {title}
         {highlight && (
           <>
