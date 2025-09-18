@@ -29,7 +29,7 @@ export const StarRating: React.FC<StarRatingProps> = ({
           <Star
             key={i}
             className={cn(
-              'icon-size-md',
+              'icon-size-sm',
               i < rating ? 'text-yellow-400 fill-current' : inactiveColor
             )}
             aria-hidden

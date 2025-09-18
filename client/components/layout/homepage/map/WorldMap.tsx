@@ -84,7 +84,7 @@ export const WorldMap = ({ spots = [] }: WorldMapProps) => {
               onKeyDown={(e) => handleKeyDown(e, spot)}>
               <div
                 className={`icon-size-lg rounded-full border-2 border-white shadow-lg transition-all duration-300 relative ${bgColor}`}>
-                <MapPin className="icon-size-md text-white absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
+                <MapPin className="icon-size-sm text-white absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
               </div>
               {isHovered && <Tooltip title={spot.title} country={spot.country} />}
               <div

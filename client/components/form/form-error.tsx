@@ -12,7 +12,7 @@ export const FormError = ({ message }: FormErrorProps) => {
       role="alert"
       aria-live="assertive"
       className="bg-destructive/15 p-3 rounded-md flex items-center gap-x-2 text-sm text-destructive w-full">
-      <AlertTriangle className="icon-size-md" aria-hidden />
+      <AlertTriangle className="icon-size-sm" aria-hidden />
       <p>{message}</p>
     </div>
   );

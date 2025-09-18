@@ -12,7 +12,7 @@ export const FormSuccess = ({ message }: FormSuccessProps) => {
       role="status"
       aria-live="polite"
       className="bg-emerald-500/15 p-3 rounded-md flex items-center gap-x-2 text-sm text-emerald-500 w-full">
-      <CheckCircle className="icon-size-md" aria-hidden />
+      <CheckCircle className="icon-size-sm" aria-hidden />
       <p>{message}</p>
     </div>
   );

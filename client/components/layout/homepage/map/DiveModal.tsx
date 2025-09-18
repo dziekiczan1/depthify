@@ -1,6 +1,6 @@
 'use client';
 
-import { LucideX } from 'lucide-react';
+import { Camera, Fish, LucideX } from 'lucide-react';
 import { StarRating } from '@/components/features/logbook/StarRating';
 import { Button } from '@/components/ui/button';
 import {
@@ -10,7 +10,8 @@ import {
 import { DiveStatKey } from '@/lib/homepage/logbook';
 import { DiveSpot } from '@/lib/homepage/dives';
 import { Heading } from '@/components/ui/heading';
-import { legendItems } from '@/lib/homepage/map';
+import { legendItems, tagListHeadings } from '@/lib/homepage/map';
+import { TagList } from '@/components/features/logbook/TagList';
 
 interface DiveModalProps {
   isOpen: boolean;
@@ -38,7 +39,7 @@ export const DiveModal: React.FC<DiveModalProps> = ({ isOpen, onClose, spot }) =
             size="sm"
             className="absolute top-4 right-4 icon-bg-size-md rounded-full bg-slate-700 text-slate-400 hover:text-white hover:bg-slate-600"
             aria-label="Close modal">
-            <LucideX className="icon-size-md" />
+            <LucideX className="icon-size-sm" />
           </Button>
 
           <div className="flex flex-col items-start space-x-4">
@@ -88,46 +89,19 @@ export const DiveModal: React.FC<DiveModalProps> = ({ isOpen, onClose, spot }) =
                 />
               ))}
           </div>
-
-          {spot.attractions && (
-            <div className="mb-6">
-              <Heading
-                as="h3"
-                title="Main attractions"
-                size="xs"
-                headingClassName="text-white font-semibold mb-3"
-              />
-              <div className="flex flex-wrap gap-2">
-                {spot.attractions.map((attr: any, i: any) => (
-                  <span
-                    key={i}
-                    className="px-3 py-1 bg-blue-500/20 text-blue-400 rounded-full text-sm">
-                    {attr}
-                  </span>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {spot.wildlife && (
-            <div>
-              <Heading
-                as="h3"
-                title="Sea life"
-                size="xs"
-                headingClassName="text-white font-semibold mb-3"
-              />
-              <div className="flex flex-wrap gap-2">
-                {spot.wildlife.map((w, i) => (
-                  <span
-                    key={i}
-                    className="px-3 py-1 bg-cyan-500/20 text-cyan-400 rounded-full text-sm">
-                    {w}
-                  </span>
-                ))}
-              </div>
-            </div>
-          )}
+          <TagList
+            icon={<Camera className="icon-size-md text-blue-400" />}
+            items={spot.attractions}
+            color="blue"
+            title={tagListHeadings.attractions}
+            className="mb-6"
+          />
+          <TagList
+            icon={<Fish className="icon-size-md text-cyan-400" />}
+            items={spot.wildlife}
+            color="cyan"
+            title={tagListHeadings.sealife}
+          />
         </div>
       </div>
     </div>
@@ -143,7 +117,8 @@ export const ModalDiveStat = ({ icon, label, value, unit }: DiveStatProps) => {
       <dl>
         <dt className="sr-only">{label}</dt>
         <dd className="text-white font-semibold mb-1 text-sm">
-          {value} {unit}
+          {value}
+          {unit}
         </dd>
       </dl>
       <div className="text-slate-400 text-xs">{label}</div>

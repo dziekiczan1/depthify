@@ -13,11 +13,21 @@ export interface MapLegendItem {
   label: string;
 }
 
+export interface TagListHeading {
+  attractions: string;
+  sealife: string;
+}
+
 export const mapHeading: SectionHeading = {
   title: 'Discover the best',
   highlight: 'dive sites in the world',
   description:
     'An interactive map with the most beautiful dive sites across the globe. Click on a pin to explore details of each location.',
+};
+
+export const tagListHeadings: TagListHeading = {
+  attractions: 'Main attractions',
+  sealife: 'Sea life',
 };
 
 export const mapLegendAriaLabel: string = 'Diver skill levels';

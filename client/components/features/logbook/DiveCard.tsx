@@ -9,6 +9,7 @@ import { StarRating } from '@/components/features/logbook/StarRating';
 import { DiveSpot } from '@/lib/homepage/dives';
 import { DiveStatKey } from '@/lib/homepage/logbook';
 import { Heading } from '@/components/ui/heading';
+import { TagList } from '@/components/features/logbook/TagList';
 
 export const DiveCard = ({ dive }: { dive: DiveSpot }) => {
   return (
@@ -25,7 +26,7 @@ export const DiveCard = ({ dive }: { dive: DiveSpot }) => {
             headingClassName="text-lg font-semibold text-slate-900 !mb-1"
           />
           <div className="flex items-center text-slate-500 text-sm">
-            <CalendarIcon className="icon-size-md mr-1" aria-hidden />
+            <CalendarIcon className="icon-size-sm mr-1" aria-hidden />
             <time dateTime={dive.date}>{dive.date}</time>
           </div>
         </div>
@@ -47,19 +48,11 @@ export const DiveCard = ({ dive }: { dive: DiveSpot }) => {
 
       <p className="text-slate-600 text-sm mb-4 leading-relaxed">{dive.description}</p>
 
-      <ul className="flex flex-wrap gap-2 mb-4" aria-label="Dive tags">
-        {dive.attractions?.map((attraction) => (
-          <li key={attraction}>
-            <span className="px-3 py-1 bg-blue-100 text-blue-800 text-xs font-medium rounded-full">
-              {attraction}
-            </span>
-          </li>
-        ))}
-      </ul>
+      <TagList items={dive.attractions} color="darkBlue" className="mb-4" small />
 
       <footer className="flex items-center justify-between">
         <div className="flex items-center text-slate-500 text-sm">
-          <CameraIcon className="icon-size-md mr-2" aria-hidden />
+          <CameraIcon className="icon-size-sm mr-2" aria-hidden />
           <span>{dive.photosCount} photos</span>
         </div>
 
@@ -86,7 +79,8 @@ export const DiveStat = ({ icon, label, value, bg, iconColor, unit }: DiveStatPr
       <dl>
         <dt className="text-slate-500">{label}</dt>
         <dd className="font-semibold text-slate-900">
-          {value} {unit}
+          {value}
+          {unit}
         </dd>
       </dl>
     </div>

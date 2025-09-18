@@ -19,7 +19,7 @@ export const diveStatsConfig: Omit<DiveStatProps, 'value'>[] = [
     label: DiveStatLabel.DEPTH,
     bg: 'bg-blue-100',
     iconColor: 'text-blue-600',
-    icon: <MapPinIcon className="icon-size-md" aria-hidden />,
+    icon: <MapPinIcon className="icon-size-sm" aria-hidden />,
     unit: DiveStatUnit.METER,
   },
   {
@@ -27,7 +27,7 @@ export const diveStatsConfig: Omit<DiveStatProps, 'value'>[] = [
     label: DiveStatLabel.TIME,
     bg: 'bg-cyan-100',
     iconColor: 'text-cyan-600',
-    icon: <ClockIcon className="icon-size-md" aria-hidden />,
+    icon: <ClockIcon className="icon-size-sm" aria-hidden />,
     unit: DiveStatUnit.MINUTES,
   },
   {
@@ -35,7 +35,7 @@ export const diveStatsConfig: Omit<DiveStatProps, 'value'>[] = [
     label: DiveStatLabel.TEMPERATURE,
     bg: 'bg-orange-100',
     iconColor: 'text-orange-600',
-    icon: <ThermometerIcon className="icon-size-md" aria-hidden />,
+    icon: <ThermometerIcon className="icon-size-sm" aria-hidden />,
     unit: DiveStatUnit.CELSIUS,
   },
   {
@@ -43,7 +43,7 @@ export const diveStatsConfig: Omit<DiveStatProps, 'value'>[] = [
     label: DiveStatLabel.VISIBILITY,
     bg: 'bg-green-100',
     iconColor: 'text-green-600',
-    icon: <EyeIcon className="icon-size-md" aria-hidden />,
+    icon: <EyeIcon className="icon-size-sm" aria-hidden />,
     unit: DiveStatUnit.METER,
   },
   {
@@ -51,7 +51,7 @@ export const diveStatsConfig: Omit<DiveStatProps, 'value'>[] = [
     label: DiveStatLabel.BESTTIME,
     bg: 'bg-cyan-100',
     iconColor: 'text-cyan-600',
-    icon: <ClockIcon className="icon-size-md" aria-hidden />,
+    icon: <ClockIcon className="icon-size-sm" aria-hidden />,
     unit: '',
   },
 ] as const;
