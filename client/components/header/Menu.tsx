@@ -12,7 +12,7 @@ export interface NavItem {
 
 export const navigationItems: NavItem[] = [
   { label: 'Home', href: '/' },
-  { label: 'About', href: '/about' },
+  { label: 'Logbook', href: '/logbook/add' },
   { label: 'Services', href: '/services' },
   { label: 'Contact', href: '/contact' },
 ];
