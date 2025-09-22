@@ -22,12 +22,12 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
-import {Calendar, ChartColumn, Clock, Globe, MapPin} from 'lucide-react';
+import {Calendar, ChartColumn, Clock, Globe, MapPin, Star} from 'lucide-react';
 import {CalendarField} from '@/components/ui/date';
 import {formatDate, parseDate} from '@/lib/date';
 import {DiveStatUnit} from "@/lib/homepage/dives";
 import {DiveLevel} from "@/lib/homepage/map";
-import {diveLevelLabels} from "@/lib/logbook/level";
+import {diveLevelLabels, diveRatingLabels, diveRatings} from "@/lib/logbook/level";
 
 export function LogbookForm() {
     const [isLoading, setIsLoading] = useState(false);
@@ -37,6 +37,7 @@ export function LogbookForm() {
             title: '',
             country: '',
             date: '',
+            time: '',
             rating: 3,
             level: '',
             description: '',
@@ -72,17 +73,17 @@ export function LogbookForm() {
                     render={({field}) => (
                         <FormItem>
                             <FormLabel>Date</FormLabel>
-                            <FormControl>
-                                <div className="relative">
-                                    <Calendar
-                                        className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground icon-size-sm"/>
+                            <div className="relative max-h-10">
+                                <Calendar
+                                    className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground icon-size-sm"/>
+                                <FormControl>
                                     <CalendarField
                                         value={parseDate(field.value)}
                                         onChange={(date) => field.onChange(date ? formatDate(date) : '')}
                                         className="pl-9"
                                     />
-                                </div>
-                            </FormControl>
+                                </FormControl>
+                            </div>
                             <FormMessage/>
                         </FormItem>
                     )}
@@ -94,15 +95,15 @@ export function LogbookForm() {
                     render={({field}) => (
                         <FormItem>
                             <FormLabel>Time</FormLabel>
-                            <FormControl>
-                                <div className="relative">
-                                    <Clock
-                                        className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground icon-size-sm"/>
+                            <div className="relative max-h-10">
+                                <Clock
+                                    className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground icon-size-sm"/>
+                                <FormControl>
                                     <Input placeholder="48" {...field} className="px-9"/>
-                                    <span
-                                        className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground text-sm">{DiveStatUnit.MINUTES}</span>
-                                </div>
-                            </FormControl>
+                                </FormControl>
+                                <span
+                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground text-sm">{DiveStatUnit.MINUTES}</span>
+                            </div>
                             <FormMessage/>
                         </FormItem>
                     )}
@@ -114,13 +115,13 @@ export function LogbookForm() {
                     render={({field}) => (
                         <FormItem>
                             <FormLabel>Dive site</FormLabel>
-                            <FormControl>
-                                <div className="relative">
-                                    <MapPin
-                                        className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground icon-size-sm"/>
+                            <div className="relative max-h-10">
+                                <MapPin
+                                    className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground icon-size-sm"/>
+                                <FormControl>
                                     <Input placeholder="Blue Hole, Dahab" {...field} className="pl-9"/>
-                                </div>
-                            </FormControl>
+                                </FormControl>
+                            </div>
                             <FormMessage/>
                         </FormItem>
                     )}
@@ -132,28 +133,28 @@ export function LogbookForm() {
                     render={({field}) => (
                         <FormItem>
                             <FormLabel>Country</FormLabel>
-                            <FormControl>
-                                <div className="relative">
-                                    <Globe
-                                        className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground icon-size-sm"/>
-                                    <Select value={field.value || ''} onValueChange={field.onChange}>
+                            <div className="relative max-h-10">
+                                <Globe
+                                    className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground icon-size-sm"/>
+                                <Select value={field.value || ''} onValueChange={field.onChange}>
+                                    <FormControl>
                                         <SelectTrigger className="pl-9">
                                             <SelectValue placeholder="Select country"/>
                                         </SelectTrigger>
-                                        <SelectContent>
-                                            {countries.map((country) => (
-                                                <SelectItem key={country.value} value={country.value}>
-                                                    {country.label}
-                                                </SelectItem>
-                                            ))}
-                                        </SelectContent>
-                                    </Select>
-                                </div>
-                            </FormControl>
+                                    </FormControl>
+                                    <SelectContent>
+                                        {countries.map((country) => (
+                                            <SelectItem key={country.value} value={country.value}>
+                                                {country.label}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                            </div>
                             <FormMessage/>
                         </FormItem>
-                        )}
-                    />
+                    )}
+                />
 
                 <FormField
                     control={form.control}
@@ -161,24 +162,58 @@ export function LogbookForm() {
                     render={({field}) => (
                         <FormItem>
                             <FormLabel>Level</FormLabel>
-                            <FormControl>
-                                <div className="relative">
-                                    <ChartColumn className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground icon-size-sm"/>
-                                    <Select value={field.value || ''} onValueChange={field.onChange}>
+                            <div className="relative max-h-10">
+                                <ChartColumn
+                                    className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground icon-size-sm"/>
+                                <Select value={field.value || ''} onValueChange={field.onChange}>
+                                    <FormControl>
                                         <SelectTrigger className="pl-9">
                                             <SelectValue placeholder="Select level"/>
                                         </SelectTrigger>
-                                        <SelectContent>
-                                            {Object.values(DiveLevel).map((level) => (
-                                                <SelectItem key={level} value={level}>
-                                                    {diveLevelLabels[level]}
-                                                </SelectItem>
-                                            ))}
-                                        </SelectContent>
-                                    </Select>
-                                </div>
-                            </FormControl>
+                                    </FormControl>
+                                    <SelectContent>
+                                        {Object.values(DiveLevel).map((level) => (
+                                            <SelectItem key={level} value={level}>
+                                                {diveLevelLabels[level]}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                            </div>
                             <FormMessage/>
+                        </FormItem>
+                    )}
+                />
+
+                <FormField
+                    control={form.control}
+                    name="rating"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Rating</FormLabel>
+                            <div className="relative max-h-10">
+                                <Star
+                                    className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground icon-size-sm"
+                                />
+                                <Select
+                                    value={field.value?.toString() || ''}
+                                    onValueChange={(val) => field.onChange(Number(val))}
+                                >
+                                    <FormControl>
+                                        <SelectTrigger className="pl-9">
+                                            <SelectValue placeholder="Rate the dive" />
+                                        </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                        {diveRatings.map((rating) => (
+                                            <SelectItem key={rating} value={rating.toString()}>
+                                                {diveRatingLabels[rating.toString()]}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                            </div>
+                            <FormMessage />
                         </FormItem>
                     )}
                 />
