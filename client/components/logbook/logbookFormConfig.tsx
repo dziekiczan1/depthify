@@ -1,6 +1,7 @@
 import * as z from 'zod';
 import { countries } from '@/lib/logbook/countries';
 import {DiveLevel} from "@/lib/homepage/map";
+import {diveRatingLabels, diveRatings} from "@/lib/logbook/level";
 
 const diveLevels = Object.values(DiveLevel) as [string, ...string[]];
 
@@ -10,7 +11,9 @@ export const diveFormSchema = z.object({
     message: 'Please select a valid country',
   }),
   date: z.string().min(1, 'Date is required'),
-  rating: z.number().min(1).max(5),
+  rating: z.enum(diveRatingLabels, {
+    message: "Please select dive rating",
+  }),
   level: z.enum(diveLevels, {
     message: "Please select dive level",
   }),

@@ -38,7 +38,7 @@ export function LogbookForm() {
             country: '',
             date: '',
             time: '',
-            rating: 3,
+            rating: '',
             level: '',
             description: '',
         },
