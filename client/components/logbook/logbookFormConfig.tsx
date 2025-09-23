@@ -23,8 +23,6 @@ export const stepOneSchema = z.object({
       .min(1, 'Time is required')
       .max(4, 'Time must be at most 4 digits')
       .refine((val) => /^[1-9]\d{0,3}$/.test(val), 'Time must be a number between 1 and 9999')
-      .transform(Number),
-
 });
 
 export const stepTwoSchema = z.object({
@@ -32,15 +30,5 @@ export const stepTwoSchema = z.object({
 });
 
 export const diveFormSchema = stepOneSchema.and(stepTwoSchema);
-
-// export const diveFormSchema = z.object({
-//   description: z.string().optional(),
-//   temperature: z.string().optional(),
-//   visibility: z.string().optional(),
-//   depth: z.string().optional(),
-//   bestTime: z.string().optional(),
-//   attractions: z.array(z.string()).optional(),
-//   wildlife: z.array(z.string()).optional(),
-// });
 
 export type DiveFormValues = z.infer<typeof diveFormSchema>;

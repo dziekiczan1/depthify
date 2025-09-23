@@ -6,7 +6,7 @@ const LogbookAdd = () => {
   return (
     <div className={`py-8 relative w-full max-w-4xl mx-auto`}>
       <Heading
-        {...FormHeadings.login}
+        {...FormHeadings.logbook}
         size="base"
         descriptionSize="base"
         headingClassName="!text-2xl"
