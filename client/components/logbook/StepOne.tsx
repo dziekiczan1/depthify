@@ -42,26 +42,6 @@ export const StepOne = ({ form }: { form: UseFormReturn<DiveFormValues> }) => (
 
     <FormField
       control={form.control}
-      name="time"
-      render={({ field }) => (
-        <FormItem>
-          <FormLabel>Time</FormLabel>
-          <div className="relative max-h-10">
-            <Clock className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground icon-size-sm" />
-            <FormControl>
-              <Input type="number" placeholder="48" {...field} className="px-9" />
-            </FormControl>
-            <span className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground text-sm">
-              {DiveStatUnit.MINUTES}
-            </span>
-          </div>
-          <FormMessage />
-        </FormItem>
-      )}
-    />
-
-    <FormField
-      control={form.control}
       name="title"
       render={({ field }) => (
         <FormItem>

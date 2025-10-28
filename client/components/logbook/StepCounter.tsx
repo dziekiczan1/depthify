@@ -1,30 +1,34 @@
 'use client';
 
 import { MapPin, Waves, Star } from 'lucide-react';
+import { Heading } from '@/components/ui/heading';
 
 interface StepCounterProps {
   step: number;
 }
 
 const steps = [
-  { icon: MapPin, label: 'Podstawowe informacje' },
-  { icon: Waves, label: 'Szczegóły nurkowania' },
-  { icon: Star, label: 'Podsumowanie' },
+  { icon: MapPin, label: 'Basic information' },
+  { icon: Waves, label: 'Dive details' },
+  { icon: Star, label: 'Summary' },
 ];
 
 export const StepCounter = ({ step }: StepCounterProps) => {
   return (
     <div className="mb-8">
       <div className="text-center mb-4">
-        <h2 className="text-xl font-semibold text-slate-900">{steps[step - 1]?.label}</h2>
-        <p className="text-slate-500">
-          Krok {step} z {steps.length}
-        </p>
+        <Heading
+          as="h2"
+          title={steps[step - 1]?.label}
+          description={`Step ${step} of ${steps.length}`}
+          size="base"
+          descriptionSize="sm"
+          color="text-slate-900"
+          descriptionClassName="leading-relaxed text-slate-600"
+        />
       </div>
-
       <div className="relative flex items-center justify-between max-w-2xl mx-auto">
         <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-slate-300 z-0" />
-
         <div
           className="absolute top-1/2 left-0 h-0.5 bg-blue-500 z-0 transition-all duration-500"
           style={{
