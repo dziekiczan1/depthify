@@ -11,11 +11,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { DiveStatUnit } from '@/lib/homepage/dives';
 import { DiveLevel } from '@/lib/homepage/map';
 import { diveLevelLabels, diveRatings, diveRatingLabels } from '@/lib/logbook/level';
 import { DiveFormValues } from '@/components/logbook/logbookFormConfig';
 import { UseFormReturn } from 'react-hook-form';
+import { months } from '@/lib/logbook/monts';
 
 export const StepOne = ({ form }: { form: UseFormReturn<DiveFormValues> }) => (
   <>
@@ -112,6 +112,64 @@ export const StepOne = ({ form }: { form: UseFormReturn<DiveFormValues> }) => (
         </FormItem>
       )}
     />
+
+    <div className="grid grid-cols-2 gap-4">
+      <FormField
+        control={form.control}
+        name="bestTimeStart"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Best time</FormLabel>
+            <div className="relative max-h-10">
+              <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground icon-size-sm" />
+              <Select value={field.value || ''} onValueChange={field.onChange}>
+                <FormControl>
+                  <SelectTrigger className="pl-9">
+                    <SelectValue placeholder="Start month" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {months.map((month) => (
+                    <SelectItem key={month.value} value={month.value}>
+                      {month.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </div>
+          </FormItem>
+        )}
+      />
+
+      <FormField
+        control={form.control}
+        name="bestTimeEnd"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Best time</FormLabel>
+            <div className="relative max-h-10">
+              <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground icon-size-sm" />
+              <Select value={field.value || ''} onValueChange={field.onChange}>
+                <FormControl>
+                  <SelectTrigger className="pl-9">
+                    <SelectValue placeholder="End month" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {months.map((month) => (
+                    <SelectItem key={month.value} value={month.value}>
+                      {month.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </div>
+          </FormItem>
+        )}
+      />
+    </div>
 
     <FormField
       control={form.control}

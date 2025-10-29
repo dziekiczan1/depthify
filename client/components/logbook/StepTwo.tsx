@@ -1,5 +1,5 @@
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form';
-import { Thermometer, Eye, ArrowDownCircle, Clock, AlignLeft } from 'lucide-react';
+import { Thermometer, Eye, ArrowDownCircle, Clock, AlignLeft, Mountain, Fish } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { UseFormReturn } from 'react-hook-form';
 import { DiveFormValues } from '@/components/logbook/logbookFormConfig';
@@ -89,14 +89,41 @@ export const StepTwo = ({ form }: { form: UseFormReturn<DiveFormValues> }) => (
 
     <FormField
       control={form.control}
-      name="description"
+      name="attractions"
       render={({ field }) => (
         <FormItem>
-          <FormLabel>Description</FormLabel>
+          <FormLabel>Attractions</FormLabel>
           <div className="relative">
-            <AlignLeft className="absolute left-3 top-3 text-muted-foreground icon-size-sm" />
+            <Mountain className="absolute left-3 top-3 text-muted-foreground icon-size-sm" />
             <FormControl>
-              <Input placeholder="Write your dive notes..." {...field} className="pl-9" />
+              <Input
+                placeholder="Volcanic rock formations, Natural trench"
+                {...field}
+                className="pl-9"
+                onChange={(e) => field.onChange(e.target.value.split(',').map((v) => v.trim()))}
+              />
+            </FormControl>
+          </div>
+          <FormMessage />
+        </FormItem>
+      )}
+    />
+
+    <FormField
+      control={form.control}
+      name="wildlife"
+      render={({ field }) => (
+        <FormItem>
+          <FormLabel>Wildlife</FormLabel>
+          <div className="relative">
+            <Fish className="absolute left-3 top-3 text-muted-foreground icon-size-sm" />
+            <FormControl>
+              <Input
+                placeholder="Tropical fish, Sea turtle"
+                {...field}
+                className="pl-9"
+                onChange={(e) => field.onChange(e.target.value.split(',').map((v) => v.trim()))}
+              />
             </FormControl>
           </div>
           <FormMessage />
