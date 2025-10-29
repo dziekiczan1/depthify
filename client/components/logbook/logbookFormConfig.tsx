@@ -2,9 +2,11 @@ import * as z from 'zod';
 import { countries } from '@/lib/logbook/countries';
 import { DiveLevel } from '@/lib/homepage/map';
 import { diveRatingLabels } from '@/lib/logbook/level';
+import { months } from '@/lib/logbook/monts';
 
 const diveLevels = Object.values(DiveLevel) as [string, ...string[]];
 const ratingValues = Object.keys(diveRatingLabels) as [string, ...string[]];
+const monthValues = months.map((m) => m.value) as [string, ...string[]];
 
 export const stepOneSchema = z.object({
   title: z.string().min(2, 'Dive site is required'),
@@ -18,10 +20,15 @@ export const stepOneSchema = z.object({
   level: z.enum(diveLevels, {
     message: 'Please select dive level',
   }),
+  bestTimeStart: z
+    .enum(monthValues)
+    .refine((val) => val !== '', { message: 'Best month is required' }),
+  bestTimeEnd: z
+    .enum(monthValues)
+    .refine((val) => val !== '', { message: 'Best month is required' }),
 });
 
 export const stepTwoSchema = z.object({
-  description: z.string().min(1, 'Description is required'),
   stats: z.object({
     temperature: z
       .string()
@@ -41,6 +48,15 @@ export const stepTwoSchema = z.object({
       .max(4, 'Time must be at most 4 digits')
       .refine((val) => /^[1-9]\d{0,3}$/.test(val), 'Time must be a number between 1 and 9999'),
   }),
+  attractions: z
+    .array(z.string().min(1, 'Attraction cannot be empty'))
+    .min(1, 'At least one attraction is required')
+    .optional(),
+
+  wildlife: z
+    .array(z.string().min(1, 'Wildlife item cannot be empty'))
+    .min(1, 'At least one wildlife item is required')
+    .optional(),
 });
 
 export const diveFormSchema = stepOneSchema.and(stepTwoSchema);
