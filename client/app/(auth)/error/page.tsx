@@ -10,7 +10,7 @@ const ErrorPage = () => {
   const error = searchParams.get('error');
 
   return (
-    <div className="relative w-full max-w-lg mx-auto">
+    <div className="relative w-full max-w-lg mx-auto py-8">
       <div className="text-center">
         <h1 className="text-2xl font-bold text-slate-900 mb-2">Authentication Failed</h1>
         <div className="text-slate-600 leading-6 text-center">
