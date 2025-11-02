@@ -23,7 +23,7 @@ export const StepOne = ({ form }: { form: UseFormReturn<DiveFormValues> }) => (
       control={form.control}
       name="date"
       render={({ field }) => (
-        <FormItem>
+        <FormItem className="col-span-2 md:col-span-1">
           <FormLabel>Date</FormLabel>
           <div className="relative max-h-10">
             <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground icon-size-sm" />
@@ -44,7 +44,7 @@ export const StepOne = ({ form }: { form: UseFormReturn<DiveFormValues> }) => (
       control={form.control}
       name="title"
       render={({ field }) => (
-        <FormItem>
+        <FormItem className="col-span-2 md:col-span-1">
           <FormLabel>Dive site</FormLabel>
           <div className="relative max-h-10">
             <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground icon-size-sm" />
@@ -61,7 +61,7 @@ export const StepOne = ({ form }: { form: UseFormReturn<DiveFormValues> }) => (
       control={form.control}
       name="country"
       render={({ field }) => (
-        <FormItem>
+        <FormItem className="col-span-2 md:col-span-1">
           <FormLabel>Country</FormLabel>
           <div className="relative max-h-10">
             <Globe className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground icon-size-sm" />
@@ -89,7 +89,7 @@ export const StepOne = ({ form }: { form: UseFormReturn<DiveFormValues> }) => (
       control={form.control}
       name="level"
       render={({ field }) => (
-        <FormItem>
+        <FormItem className="col-span-2 md:col-span-1">
           <FormLabel>Level</FormLabel>
           <div className="relative max-h-10">
             <ChartColumn className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground icon-size-sm" />
@@ -113,12 +113,12 @@ export const StepOne = ({ form }: { form: UseFormReturn<DiveFormValues> }) => (
       )}
     />
 
-    <div className="grid grid-cols-2 gap-4">
+    <div className="grid col-span-2 md:col-span-1 grid-cols-2 gap-6">
       <FormField
         control={form.control}
         name="bestTimeStart"
         render={({ field }) => (
-          <FormItem>
+          <FormItem className="col-span-2 md:col-span-1">
             <FormLabel>Best time</FormLabel>
             <div className="relative max-h-10">
               <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground icon-size-sm" />
@@ -136,8 +136,8 @@ export const StepOne = ({ form }: { form: UseFormReturn<DiveFormValues> }) => (
                   ))}
                 </SelectContent>
               </Select>
-              <FormMessage />
             </div>
+            <FormMessage />
           </FormItem>
         )}
       />
@@ -146,7 +146,7 @@ export const StepOne = ({ form }: { form: UseFormReturn<DiveFormValues> }) => (
         control={form.control}
         name="bestTimeEnd"
         render={({ field }) => (
-          <FormItem>
+          <FormItem className="col-span-2 md:col-span-1">
             <FormLabel>Best time</FormLabel>
             <div className="relative max-h-10">
               <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground icon-size-sm" />
@@ -164,8 +164,8 @@ export const StepOne = ({ form }: { form: UseFormReturn<DiveFormValues> }) => (
                   ))}
                 </SelectContent>
               </Select>
-              <FormMessage />
             </div>
+            <FormMessage />
           </FormItem>
         )}
       />
@@ -175,7 +175,7 @@ export const StepOne = ({ form }: { form: UseFormReturn<DiveFormValues> }) => (
       control={form.control}
       name="rating"
       render={({ field }) => (
-        <FormItem>
+        <FormItem className="col-span-2 md:col-span-1">
           <FormLabel>Rating</FormLabel>
           <div className="relative max-h-10">
             <Star className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground icon-size-sm" />

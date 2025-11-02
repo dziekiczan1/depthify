@@ -13,7 +13,7 @@ const LogbookAdd = () => {
         className="mb-8"
         center
       />
-      <div className={`bg-white rounded-2xl shadow-xl border border-blue-100 p-8`}>
+      <div className={`bg-white rounded-2xl shadow-xl border border-blue-100 p-4 md:p-8`}>
         <LogbookForm />
       </div>
     </div>

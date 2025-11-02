@@ -21,15 +21,31 @@ export function LogbookForm() {
       title: '',
       country: '',
       date: '',
-      time: '',
+      bestTimeStart: '',
+      bestTimeEnd: '',
       rating: '',
       level: '',
-      description: '',
+      stats: {
+        temperature: '',
+        visibility: '',
+        depth: '',
+        time: '',
+      },
+      attractions: '',
+      wildlife: '',
     },
   });
 
   const handleNext = async () => {
-    const valid = await form.trigger(['date', 'time', 'title', 'country', 'level', 'rating']);
+    const valid = await form.trigger([
+      'date',
+      'bestTimeStart',
+      'bestTimeEnd',
+      'title',
+      'country',
+      'level',
+      'rating',
+    ]);
 
     if (valid) {
       setStep(2);
@@ -71,7 +87,7 @@ export function LogbookForm() {
           )}
 
           {step < 2 && (
-            <Button type="button" onClick={handleNext}>
+            <Button type="button" onClick={handleNext} className="w-full md:w-auto">
               Next
             </Button>
           )}

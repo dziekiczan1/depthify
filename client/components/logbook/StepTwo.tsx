@@ -100,7 +100,7 @@ export const StepTwo = ({ form }: { form: UseFormReturn<DiveFormValues> }) => (
                 placeholder="Volcanic rock formations, Natural trench"
                 {...field}
                 className="pl-9"
-                onChange={(e) => field.onChange(e.target.value.split(',').map((v) => v.trim()))}
+                onChange={(e) => field.onChange(e.target.value)}
               />
             </FormControl>
           </div>
@@ -122,7 +122,7 @@ export const StepTwo = ({ form }: { form: UseFormReturn<DiveFormValues> }) => (
                 placeholder="Tropical fish, Sea turtle"
                 {...field}
                 className="pl-9"
-                onChange={(e) => field.onChange(e.target.value.split(',').map((v) => v.trim()))}
+                onChange={(e) => field.onChange(e.target.value)}
               />
             </FormControl>
           </div>

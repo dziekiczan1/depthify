@@ -20,43 +20,41 @@ export const stepOneSchema = z.object({
   level: z.enum(diveLevels, {
     message: 'Please select dive level',
   }),
-  bestTimeStart: z
-    .enum(monthValues)
-    .refine((val) => val !== '', { message: 'Best month is required' }),
-  bestTimeEnd: z
-    .enum(monthValues)
-    .refine((val) => val !== '', { message: 'Best month is required' }),
+  bestTimeStart: z.string().refine((val) => monthValues.includes(val), {
+    message: 'Best month is required',
+  }),
+  bestTimeEnd: z.string().refine((val) => monthValues.includes(val), {
+    message: 'Best month is required',
+  }),
 });
 
 export const stepTwoSchema = z.object({
   stats: z.object({
     temperature: z
       .string()
-      .min(1, 'Temperature is required')
-      .refine((val) => /^-?\d+(\.\d+)?$/.test(val), 'Temperature must be a number'),
+      .min(1, 'Dive site is required')
+      .max(2, 'Temperature must be at most 2 digits'),
     visibility: z
       .string()
-      .min(1, 'Visibility is required')
-      .refine((val) => /^[1-9]\d*$/.test(val), 'Visibility must be a positive number'),
-    depth: z
-      .string()
-      .min(1, 'Depth is required')
-      .refine((val) => /^[1-9]\d*$/.test(val), 'Depth must be a positive number'),
-    time: z
-      .string()
-      .min(1, 'Time is required')
-      .max(4, 'Time must be at most 4 digits')
-      .refine((val) => /^[1-9]\d{0,3}$/.test(val), 'Time must be a number between 1 and 9999'),
+      .min(1, 'Dive site is required')
+      .max(2, 'Visibility must be at most 2 digits'),
+    depth: z.string().min(1, 'Dive site is required').max(3, 'Depth must be at most 3 digits'),
+    time: z.string().min(1, 'Dive site is required').max(4, 'Time must be at most 2 digits'),
   }),
   attractions: z
-    .array(z.string().min(1, 'Attraction cannot be empty'))
+    .string()
     .min(1, 'At least one attraction is required')
-    .optional(),
-
+    .refine((val) => {
+      const items = val.split(',').map((v) => v.trim());
+      return items.every((item) => item.length > 0 && /^[a-zA-Z\s]+$/.test(item));
+    }, 'Only letters and spaces are allowed'),
   wildlife: z
-    .array(z.string().min(1, 'Wildlife item cannot be empty'))
-    .min(1, 'At least one wildlife item is required')
-    .optional(),
+    .string()
+    .min(1, 'At least one wildlife is required')
+    .refine((val) => {
+      const items = val.split(',').map((v) => v.trim());
+      return items.every((item) => item.length > 0 && /^[a-zA-Z\s]+$/.test(item));
+    }, 'Only letters and spaces are allowed'),
 });
 
 export const diveFormSchema = stepOneSchema.and(stepTwoSchema);
